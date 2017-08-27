@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using PrezentacjaAF.Models;
 using PrezentacjaAF.Models.AccountViewModels;
 using PrezentacjaAF.Services;
+using PrezentacjaAF.Controllers;
 
 namespace PrezentacjaAF.Controllers
 {
@@ -151,6 +152,13 @@ namespace PrezentacjaAF.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
         }
 
         [HttpGet]
