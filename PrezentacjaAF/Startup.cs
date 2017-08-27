@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PrezentacjaAF.Data;
 using PrezentacjaAF.Models;
 using PrezentacjaAF.Services;
+using AutoMapper;
 
 namespace PrezentacjaAF
 {
@@ -35,7 +36,7 @@ namespace PrezentacjaAF
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc();
         }
 

@@ -14,6 +14,7 @@ namespace PrezentacjaAF.Data
             : base(options)
         {
         }
+        public DbSet<Slide> Slides { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

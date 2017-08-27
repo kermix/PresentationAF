@@ -1,0 +1,87 @@
+@model PrezentacjaAF.Models.SlideViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+@section Js{
+    <environment names="Staging,Production">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    </environment>
+    <environment names="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+}
+@section Css{
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    </environment>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <style> body { background-color: white !important; } </style>
+}
+<h2>Create</h2>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-horizontal">
+        <h4>Slide</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <input asp-for="SlideLength" type="hidden" form-control" />
+        <div class="form-group">
+            <label asp-for="SortOrder" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SortOrder" type="number" form-control" />
+                <span asp-validation-for="SortOrder" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhotoFile" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="file" name="PhotoFile" class="form-control" accept="image/jpeg, image/png" />
+                <span asp-validation-for="PhotoFile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MusicFile" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="file" name="MusicFile" id="MusicFile" class="form-control" accept="audio/mpeg" />
+                <span asp-validation-for="MusicFile" class="text-danger"></span>
+                <audio id="audio" controls></audio>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts{
+    <environment names="Staging,Production">
+        <script src="~/js/setSlideDuration.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Development">
+        <script src="~/js/setSlideDuration.js"></script>
+    </environment>
+}
+
+
