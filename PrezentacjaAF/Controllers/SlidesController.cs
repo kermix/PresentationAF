@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 namespace PrezentacjaAF.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class SlidesController : Controller
     {
         private readonly ApplicationDbContext _context;

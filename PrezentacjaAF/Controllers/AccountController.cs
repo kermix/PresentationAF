@@ -19,6 +19,7 @@ namespace PrezentacjaAF.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
