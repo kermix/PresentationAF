@@ -35,9 +35,9 @@
         if ($.getCookie("muted") === "true") {
             $(this).removeClass("active");
             $.setCookie("muted", "false", 30);
-            $("#audio.active").animate({ volume: 1 }, 2000, 'swing', function () {
-                    $(this).get(0).play();
-            });
+            $("#audio.active").volume = 0;
+            $("#audio.active").get(0).play();
+            $("#audio.active").animate({ volume: 1 }, 2000, 'swing')
 
         } else {
             $(this).addClass("active");
@@ -67,10 +67,14 @@
                 var audio = loadedSection.find("#audio");
                 audio.addClass("active");
                 if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
-                    audio.animate({ volume: 1 }, 2000, 'swing', function () {
-                        if ($.getCookie("muted") === "false")
-                            audio[0].play();
-                    });
+                    audio.volume = 0;
+                    if ($.getCookie("muted") === "false") {
+                        audio.get(0).play();
+                        audio.animate({ volume: 1 }, 2000, 'swing');
+                        setTimeout(function () {
+                            audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
+                        }, getDuration() - 2000);
+                    }
                 }
                 setMoveSlideTimeout();
             });
@@ -92,10 +96,14 @@
                 var audio = loadedSlide.find("#audio");
                 audio.addClass("active");
                 if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
-                    audio.animate({ volume: 1 }, 2000, 'swing', function () {
-                        if ($.getCookie("muted") === "false")
-                            audio[0].play();
-                    });
+                    audio.volume = 0;
+                    if ($.getCookie("muted") === "false") {
+                        audio.get(0).play();
+                        audio.animate({ volume: 1 }, 2000, 'swing');
+                        setTimeout(function () {
+                            audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
+                        }, getDuration() - 2000);
+                    }
                 }
                 setMoveSlideTimeout();
             });
