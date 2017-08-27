@@ -1,13 +1,14 @@
 ﻿$(document).ready(function () {
     var moveSlideTimeout;
+    var audioFadeOutTimeout;
     var currentSlideDuration = 10000;
 
     function getDuration() {
-        if ($.getCookie("slideDuration") == 0)
+
+        if ($.getCookie("slideDuration") == 0 || ($.getCookie("slideshow") === "false" && $.getCookie("slideDuration") != 0))
             return currentSlideDuration;
         else
             return parseInt(($.getCookie("slideDuration")));
-
     }
 
     function setMoveSlideTimeout() {
@@ -35,16 +36,13 @@
         if ($.getCookie("muted") === "true") {
             $(this).removeClass("active");
             $.setCookie("muted", "false", 30);
-            $("#audio.active").volume = 0;
             $("#audio.active").get(0).play();
-            $("#audio.active").animate({ volume: 1 }, 2000, 'swing')
 
         } else {
             $(this).addClass("active");
             $.setCookie("muted", "true", 30);
             $("#audio.active").animate({ volume: 0 }, 2000, 'swing', function () {
                 $(this).get(0).pause();
-                $(this).get(0).currentTime = 0;
             });
         }
     });
@@ -53,64 +51,68 @@
         $.setCookie("slideDuration", (parseInt($("#slideLength").val()) * 1000).toString(), 30);
     });
 
+    $(".photo").each(function (i, el) {
+        $(el).on('load', function () {
+            $(this).fadeIn();
+            $(this).parent().find('#loader').fadeOut();
+            var audio = $(this).parent().find("#audio");
+            audio.addClass("active");
+            if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
+                audio.volume = 0;
+                if ($.getCookie("muted") === "false") {
+                    audio.get(0).play();
+                    audio.animate({ volume: 1 }, 2000, 'swing');
+                    clearTimeout(audioFadeOutTimeout);
+                    audioFadeOutTimeout = setTimeout(function () {
+                        audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
+                    }, getDuration() - 2000);
+                }
+            }
+            setMoveSlideTimeout();
+        });
+    }) 
+
+    $("#audio").each(function (i, el) {
+        $(el).on('play', function () {
+            audio = $(this)
+            if ($.getCookie("muted") === "false") {
+                audio.volume = 0;
+                audio.animate({ volume: 1 }, 2000, 'swing');
+                clearTimeout(audioFadeOutTimeout);
+                audioFadeOutTimeout = setTimeout(function () {
+                    audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
+                }, getDuration() - 2000);
+            }
+        })  
+
+        $(el).on('pause', function () {
+            audio = $(this);
+            clearTimeout(audioFadeOutTimeout);
+            audio.volume = 0;
+            audio.get(0).currentTime = 0;
+        })
+    })    
+
     $('#fullpage').fullpage({
         verticalCentered: true,
         fitToSection: true,
         anchors: ['mainSection'],
         afterLoad: function (anchorLink, index) {
             var loadedSection = $(this);
-            var image = loadedSection.find("#photo");
+            var image = loadedSection.find(".photo");
             currentSlideDuration = loadedSection.find("#slideDuration").val() * 1000;
-            image.on('load', function () {
-                $(this).fadeIn();
-                loadedSection.find('#loader').fadeOut();
-                var audio = loadedSection.find("#audio");
-                audio.addClass("active");
-                if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
-                    audio.volume = 0;
-                    if ($.getCookie("muted") === "false") {
-                        audio.get(0).play();
-                        audio.animate({ volume: 1 }, 2000, 'swing');
-                        setTimeout(function () {
-                            audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
-                        }, getDuration() - 2000);
-                    }
-                }
-                setMoveSlideTimeout();
-            });
 
-            if (image[0].complete) {
-                image.trigger('load');
-            }
+            if (image[0].complete) image.trigger('load');
 
             $("#slidethumb-" + (index)).addClass("active");
         },
+
         afterSlideLoad: function (anchorLink, index, slideAnchor, slideIndex) {
             var loadedSlide = $(this);
-            var image = loadedSlide.find("#photo");
+            var image = loadedSlide.find(".photo");
             currentSlideDuration = loadedSlide.find("#slideDuration").val() * 1000;
 
-            image.on('load', function () {
-                $(this).fadeIn();
-                loadedSlide.find('#loader').fadeOut();
-                var audio = loadedSlide.find("#audio");
-                audio.addClass("active");
-                if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
-                    audio.volume = 0;
-                    if ($.getCookie("muted") === "false") {
-                        audio.get(0).play();
-                        audio.animate({ volume: 1 }, 2000, 'swing');
-                        setTimeout(function () {
-                            audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
-                        }, getDuration() - 2000);
-                    }
-                }
-                setMoveSlideTimeout();
-            });
-
-            if (image[0].complete) {
-                image.trigger('load');
-            }
+            if (image[0].complete) image.trigger('load');
 
             $("#slidethumb-" + (slideIndex + 1)).addClass("active");
             $("#slidesNav").animate({
@@ -118,6 +120,7 @@
                 - $("#slidesNav").width() / 2 + $("#slidethumb-" + (slideIndex + 1)).width() / 2
             }, 500);
         },
+
         onSlideLeave: function (anchorLink, index, slideIndex, direction, nextSlideIndex) {
             var leavingSlide = $(this);
             var audio = leavingSlide.find("#audio");
