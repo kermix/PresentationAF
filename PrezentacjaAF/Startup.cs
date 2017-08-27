@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PrezentacjaAF.Data;
 using PrezentacjaAF.Models;
 using PrezentacjaAF.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
 
 namespace PrezentacjaAF
@@ -35,9 +36,10 @@ namespace PrezentacjaAF
                 .AddDefaultTokenProviders();
 
             // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc();
+            services.AddTransient<IEmailSender, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

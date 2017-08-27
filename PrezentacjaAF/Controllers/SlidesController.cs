@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 namespace PrezentacjaAF.Controllers
 {
     [Authorize]
-    [Route("59ba5747-3854-4b3b-a24e-cf3b1f22e2dd/[action]")]
     public class SlidesController : Controller
     {
         private readonly ApplicationDbContext _context;
