@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  prezentacjaaf:
+    image: prezentacjaaf
+    build:
+      context: ./PrezentacjaAF
+      dockerfile: Dockerfile
