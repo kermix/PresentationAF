@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ImageMagick;
+using ImageSharp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +51,8 @@ namespace PrezentacjaAF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SlideViewModel slide)
         {
+            VerifyDirs();
+
             if (slide.PhotoFile == null)
                 ModelState.AddModelError("PhotoFile", "File is not uploaded.");
             else if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
@@ -74,11 +76,13 @@ namespace PrezentacjaAF.Controllers
                     {
                         await slide.PhotoFile.CopyToAsync(stream);
                     }
-                    using (MagickImage image = new MagickImage(photoDir))
+                    using (Image<Rgba32> image = Image.Load(photoDir))
                     {
-                        image.Write(photoDir);
-                        image.Resize(80, 200);
-                        image.Write(_env.WebRootPath + @"\uploads\photos\thumbs\" + fileName);
+                        int width, height;
+                        CalcImageDims(image.Width, image.Height, out width, out height);
+                        image.Save(photoDir);
+                        image.Resize(width, height)
+                             .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + fileName);
                     }
                     slide.PhotoPath = Path.GetFileName(photoDir);
                 }
@@ -131,6 +135,8 @@ namespace PrezentacjaAF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SlideViewModel slide)
         {
+            VerifyDirs();
+
             //TODO: Have not to add files when editing.
             if (id != slide.ID)
             {
@@ -160,11 +166,13 @@ namespace PrezentacjaAF.Controllers
                     {
                         await slide.PhotoFile.CopyToAsync(stream);
                     }
-                    using (MagickImage image = new MagickImage(photoDir))
+                    using (Image<Rgba32> image = Image.Load(photoDir))
                     {
-                        image.Write(photoDir);
-                        image.Resize(80, 200);
-                        image.Write(_env.WebRootPath + @"\uploads\photos\thumbs\" + slide.PhotoPath);
+                        int width, height;
+                        CalcImageDims(image.Width, image.Height, out width, out height);
+                        image.Save(photoDir);
+                        image.Resize(width, height)
+                             .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + slide.PhotoPath);
                     }
                 }
                 if (slide.MusicFile != null && slide.MusicFile.Length > 0)
@@ -288,6 +296,16 @@ namespace PrezentacjaAF.Controllers
                 System.IO.File.Delete(dir);
         }
 
+        private void VerifyDirs()
+        {
+            if (!System.IO.Directory.Exists( _env.WebRootPath + @"\uploads\photos\"))
+                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\photos\");
+            if (!System.IO.Directory.Exists(_env.WebRootPath + @"\uploads\photos\thumbs\"))
+                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\photos\thumbs\");
+            if (!System.IO.Directory.Exists(_env.WebRootPath + @"\uploads\music"))
+                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\music\");
+        }
+
         private void CalcImageDims(int imageWidth, int imageHeight, out int width, out int height)
         {
             const int size = 50;
@@ -302,5 +320,6 @@ namespace PrezentacjaAF.Controllers
                 height = size;
             }
         }
+
     }
 }
