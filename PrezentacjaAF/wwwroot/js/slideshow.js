@@ -58,14 +58,8 @@
             var audio = $(this).parent().find("#audio");
             audio.addClass("active");
             if (audio[0].hasAttribute('data-autoplay') && typeof audio[0].play === 'function') {
-                audio.volume = 0;
                 if ($.getCookie("muted") === "false") {
                     audio.get(0).play();
-                    audio.animate({ volume: 1 }, 2000, 'swing');
-                    clearTimeout(audioFadeOutTimeout);
-                    audioFadeOutTimeout = setTimeout(function () {
-                        audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
-                    }, getDuration() - 2000);
                 }
             }
             setMoveSlideTimeout();
@@ -77,7 +71,7 @@
             audio = $(this)
             if ($.getCookie("muted") === "false") {
                 audio.volume = 0;
-                audio.animate({ volume: 1 }, 2000, 'swing');
+                audio.animate({ volume: 0.5 }, 2000, 'swing');
                 clearTimeout(audioFadeOutTimeout);
                 audioFadeOutTimeout = setTimeout(function () {
                     audio.animate({ volume: 0 }, 2000, 'swing', function () { audio.get(0).pause(); })
