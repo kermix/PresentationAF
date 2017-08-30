@@ -157,7 +157,7 @@ namespace PrezentacjaAF.Controllers
             {
                 string photoDir = "";
                 string musicDir = "";
-                if (slide.MusicFile != null && slide.PhotoFile.Length > 0)
+                if (slide.PhotoFile != null && slide.PhotoFile.Length > 0)
                 {
                     string fileName = String.IsNullOrWhiteSpace(slide.PhotoPath) ?
                         Guid.NewGuid().ToString() + Path.GetExtension(slide.PhotoFile.FileName) :
