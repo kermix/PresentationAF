@@ -41,11 +41,14 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SortOrder)
+            </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhotoPath)
+                    @Html.DisplayNameFor(model => model.PhotoFile)
                 </th>
             <th></th>
         </tr>
@@ -53,6 +56,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SortOrder)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>

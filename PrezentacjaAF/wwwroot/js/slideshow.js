@@ -123,7 +123,6 @@
             var leavingSlide = $(this);
             var audio = leavingSlide.find("#audio");
             audio.removeClass("active");
-
             $("#slidethumb-" + (slideIndex + 1)).removeClass("active");
         }
     });
