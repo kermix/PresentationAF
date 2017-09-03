@@ -9,7 +9,9 @@ namespace PrezentacjaAF.Models
 {
     public class SlideViewModel : Models.Slide
     {
+        [Display(Name = "Praca")]
         public IFormFile PhotoFile { get; set; }
+        [Display(Name = "Podkład")]
         public IFormFile MusicFile { get; set; }
     }
 }
