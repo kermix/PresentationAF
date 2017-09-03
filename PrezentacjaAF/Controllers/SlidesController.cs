@@ -90,7 +90,7 @@ namespace PrezentacjaAF.Controllers
 
                 if (slide.MusicFile.Length > 0)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.PhotoFile.FileName);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.MusicFile.FileName);
                     musicDir = _env.WebRootPath + @"\uploads\music\" + fileName;
                     using (var stream = new FileStream(musicDir, FileMode.Create))
                     {
