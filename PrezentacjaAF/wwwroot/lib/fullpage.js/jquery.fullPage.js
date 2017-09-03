@@ -1663,13 +1663,7 @@
         */
         function playMedia(destiny){
             var panel = getSlideOrSection(destiny);
-
-            //playing HTML5 media elements
-            panel.find('video, audio').each(function () {
-
-
-            });
-            
+          
 
             //youtube videos
             panel.find('iframe[src*="youtube.com/embed/"]').each(function(){
@@ -1700,17 +1694,6 @@
         */
         function stopMedia(destiny){
             var panel = getSlideOrSection(destiny);
-
-            //stopping HTML5 media elements
-            panel.find('video, audio').each(function(){
-                var element = $(this)
-                if (!element[0].hasAttribute('data-keepplaying') && typeof element[0].pause === 'function') {
-                    element.animate({ volume: 0 }, 2000, 'swing', function () {
-                        element[0].pause();
-                        element[0].currentTime = 0;
-                    });
-                }
-            });
 
             //youtube videos
             panel.find('iframe[src*="youtube.com/embed/"]').each(function(){
