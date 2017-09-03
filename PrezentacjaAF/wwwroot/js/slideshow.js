@@ -51,7 +51,6 @@
             stopAudio();
         }
     });
-
     $("#slideshowButton").get(0).addEventListener("click", function () {
         if ($.getCookie("slideshow") === "true") {
             $(this).removeClass("active");
@@ -60,7 +59,6 @@
         }
         setMoveSlideTimeout();
     });
-
     $("#slideLength").get(0).addEventListener("change", function () {
         setMoveSlideTimeout();
     });

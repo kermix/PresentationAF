@@ -17,7 +17,6 @@ namespace PrezentacjaAF.Models
         public string Description { get; set; }
         public string PhotoPath { get; set; }
         public string MusicPath { get; set; }
-        [Range(0, Byte.MaxValue)]
         public byte SlideLength { get; set; }
         [Range(0, Byte.MaxValue)]
         [Display(Name = "Kolejność")]

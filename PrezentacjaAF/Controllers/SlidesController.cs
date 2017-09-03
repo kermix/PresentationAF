@@ -60,9 +60,7 @@ namespace PrezentacjaAF.Controllers
                 Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
                 ModelState.AddModelError("PhotoFile", "Wrong file extension.");
 
-            if (slide.MusicFile == null)
-                ModelState.AddModelError("MusicFile", "File is not uploaded.");
-            else if (Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
+            if (slide.MusicFile != null && Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
                 ModelState.AddModelError("MusicFile", "Wrong file extension.");
 
             if (ModelState.IsValid)
@@ -87,17 +85,24 @@ namespace PrezentacjaAF.Controllers
                     }
                     slide.PhotoPath = Path.GetFileName(photoDir);
                 }
-
-                if (slide.MusicFile.Length > 0)
+                if (slide.MusicFile != null)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.MusicFile.FileName);
-                    musicDir = _env.WebRootPath + @"\uploads\music\" + fileName;
-                    using (var stream = new FileStream(musicDir, FileMode.Create))
+                    if (slide.MusicFile.Length > 0)
                     {
-                        await slide.MusicFile.CopyToAsync(stream);
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.MusicFile.FileName);
+                        musicDir = _env.WebRootPath + @"\uploads\music\" + fileName;
+                        using (var stream = new FileStream(musicDir, FileMode.Create))
+                        {
+                            await slide.MusicFile.CopyToAsync(stream);
+                        }
+                        slide.MusicPath = Path.GetFileName(musicDir);
                     }
-                    slide.MusicPath = Path.GetFileName(musicDir);
                 }
+                else {
+                    slide.SlideLength = 30;
+                    slide.MusicPath = @"silence.mp3";
+                }
+
 
                 foreach (var s in _context.Slides.Where(c => c.SortOrder >= slide.SortOrder))
                 {
