@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 
 namespace PrezentacjaAF.Controllers
 {
@@ -22,14 +23,14 @@ namespace PrezentacjaAF.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _env;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly IStringLocalizer<SlidesController> _localizer;
 
-        public SlidesController(ApplicationDbContext context, IHostingEnvironment env, IMapper mapper, ILogger<SlidesController> logger)
+        public SlidesController(ApplicationDbContext context, IHostingEnvironment env, IMapper mapper, IStringLocalizer<SlidesController> localizer)
         {
             _context = context;
             _env = env;
             _mapper = mapper;
-            _logger = logger;
+            _localizer = localizer;
         }
 
         // GET: Slides
@@ -55,7 +56,7 @@ namespace PrezentacjaAF.Controllers
             VerifyDirs();
 
             if (slide.PhotoFile == null)
-                ModelState.AddModelError("PhotoFile", "File is not uploaded.");
+                ModelState.AddModelError("PhotoFile", "File is not uploaded");
             else if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
                 Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
                 ModelState.AddModelError("PhotoFile", "Wrong file extension.");

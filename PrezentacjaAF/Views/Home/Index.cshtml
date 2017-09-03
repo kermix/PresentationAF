@@ -68,9 +68,11 @@
 </div>
 @section Scripts{
     <environment names="Staging,Production">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/js/slideshow.min.js" asp-append-version="true"></script>
     </environment>
     <environment names="Development">
+        <script src="~/js/site.js"></script>
         <script src="~/js/slideshow.js"></script>
     </environment>
 }

@@ -29,10 +29,10 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Dodaj nową pracę</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-            <button type="submit" class="btn btn-link">Wyloguj</button>
+            <button type="submit" class="btn btn-link">Log out</button>
 </form>
 <table class="table">
     <thead>
@@ -62,8 +62,8 @@
                 <img src="\uploads\photos\thumbs\@(item.PhotoPath)" class="img-thumbnail" style="width:60px; height:auto;"/>
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edytuj</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Usuń</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }

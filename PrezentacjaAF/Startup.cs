@@ -35,9 +35,13 @@ namespace PrezentacjaAF
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             // Add application services.
             services.AddAutoMapper(typeof(Startup));
-            services.AddMvc();
+            services.AddMvc()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
             services.AddTransient<IEmailSender, EmailSender>();
 
         }

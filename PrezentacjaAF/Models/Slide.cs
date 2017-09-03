@@ -10,18 +10,18 @@ namespace PrezentacjaAF.Models
     {
         public int ID { get; set; }
         [Required]
-        [Display(Name = "Tytuł")]
+        [Display(Name = "Title")]
         public string Title { get; set; }
         [Required]
-        [Display(Name = "Opis")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
         public string PhotoPath { get; set; }
         public string MusicPath { get; set; }
         public byte SlideLength { get; set; }
         [Range(0, Byte.MaxValue)]
-        [Display(Name = "Kolejność")]
+        [Display(Name = "Order")]
         public byte SortOrder { get; set; }
-        [Display(Name = "Notatka")]
+        [Display(Name = "Notice")]
         public string Notice { get; set; }
 
 
