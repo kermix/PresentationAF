@@ -1,7 +1,7 @@
 @model IEnumerable<PrezentacjaAF.Models.SlideViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["Index "];
 }
 
 @section Js{
@@ -15,9 +15,12 @@
 @section Css{
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
     </environment>
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+
     </environment>
     <style>
         body {
@@ -26,13 +29,13 @@
     </style>
 }
 
-<h2>Index</h2>
+<h2>@Localizer["Index "]</h2>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    <a asp-action="Create">@Localizer["Create new"]</a>
 </p>
 <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-            <button type="submit" class="btn btn-link">Log out</button>
+            <button type="submit" class="btn btn-link">@Localizer["Log out"]</button>
 </form>
 <table class="table">
     <thead>
@@ -45,6 +48,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PhotoFile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notice)
                 </th>
             <th></th>
         </tr>
@@ -61,9 +67,15 @@
             <td>
                 <img src="\uploads\photos\thumbs\@(item.PhotoPath)" class="img-thumbnail" style="width:60px; height:auto;"/>
             </td>
+            <td style="text-align:center; vertical-align:middle">
+            @if (!string.IsNullOrWhiteSpace(item.Notice))
+            {
+                <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>
+            }
+            </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">@Localizer["Edit"]</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">@Localizer["Delete"]</a>
             </td>
         </tr>
 }

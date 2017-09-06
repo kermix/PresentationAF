@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PrezentacjaAF.Models.SlideViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Localizer["Home Page"];
 }
 @section Js{
     <environment names="Staging,Production">
@@ -31,7 +31,7 @@
          </div>
         <label class="slideLength">
             <select id="slideLength">
-                <option value="0">Domyślne</option>
+                <option value="0">@Localizer["Default"]</option>
                 <option value="10000">10s</option>
                 <option value="15000">15s</option>
                 <option value="30000">30s</option>
@@ -44,7 +44,7 @@
                 <div id="slide-container">
                     <div id="photo-row">
                         <audio class="audio" data-autoplay data-src="/uploads/music/@(item.MusicPath)">
-                            Your browser does not support the audio element.
+                            @Localizer["Your browser does not support the audio element."];
                         </audio>
                         <input id="slideDuration" type="hidden" value="@item.SlideLength"/>
                         <img class="photo" data-src="/uploads/photos/@item.PhotoPath"/>

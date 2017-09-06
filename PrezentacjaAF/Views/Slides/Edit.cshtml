@@ -1,7 +1,7 @@
 @model PrezentacjaAF.Models.SlideViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Localizer["Edit slide"];
 }
 
 @section Js{
@@ -32,11 +32,10 @@
     </style>
 }
 
-<h2>Edit</h2>
+<h2>@Localizer["Edit slide"]</h2>
 
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-horizontal">
-        <h4>Slide</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ID" />
@@ -103,7 +102,7 @@
         <div class="row">
             <div class="col-xs-6 form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <input type="submit" value="@Localizer["Save"]" class="btn btn-default" />
                 </div>
             </div>
         </div>
@@ -111,7 +110,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
 @section Scripts{
     <environment names="Staging,Production">

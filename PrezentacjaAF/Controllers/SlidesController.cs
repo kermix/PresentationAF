@@ -25,7 +25,11 @@ namespace PrezentacjaAF.Controllers
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<SlidesController> _localizer;
 
-        public SlidesController(ApplicationDbContext context, IHostingEnvironment env, IMapper mapper, IStringLocalizer<SlidesController> localizer)
+        public SlidesController(
+            ApplicationDbContext context, 
+            IHostingEnvironment env, 
+            IMapper mapper, 
+            IStringLocalizer<SlidesController> localizer)
         {
             _context = context;
             _env = env;
@@ -56,13 +60,19 @@ namespace PrezentacjaAF.Controllers
             VerifyDirs();
 
             if (slide.PhotoFile == null)
-                ModelState.AddModelError("PhotoFile", "File is not uploaded");
+                ModelState.AddModelError("PhotoFile", _localizer["File is not uploaded."]);
             else if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
                 Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
-                ModelState.AddModelError("PhotoFile", "Wrong file extension.");
+                ModelState.AddModelError("PhotoFile", _localizer["Wrong file extension."]);
 
             if (slide.MusicFile != null && Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
-                ModelState.AddModelError("MusicFile", "Wrong file extension.");
+                ModelState.AddModelError("MusicFile", _localizer["Wrong file extension."]);
+
+            if (ModelState["SortOrder"].Errors.Count > 0)
+            {
+                ModelState["SortOrder"].Errors.Clear();
+                ModelState["SortOrder"].Errors.Add(_localizer["Value is wrong."]);
+            }
 
             if (ModelState.IsValid)
             {
@@ -153,11 +163,17 @@ namespace PrezentacjaAF.Controllers
             if (slide.PhotoFile != null)
                 if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
                     Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
-                    ModelState.AddModelError("PhotoFile", "Wrong file extension.");
+                    ModelState.AddModelError("PhotoFile", _localizer["Wrong file extension."]);
 
             if (slide.MusicFile != null)
                 if (Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
-                    ModelState.AddModelError("MusicFile", "Wrong file extension.");
+                    ModelState.AddModelError("MusicFile", _localizer["Wrong file extension."]);
+
+            if (ModelState["SortOrder"].Errors.Count > 0)
+            {
+                ModelState["SortOrder"].Errors.Clear();
+                ModelState["SortOrder"].Errors.Add(_localizer["Value is wrong."]);
+            }
 
             if (ModelState.IsValid)
             {

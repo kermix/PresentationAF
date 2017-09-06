@@ -9,16 +9,16 @@ namespace PrezentacjaAF.Models
     public class Slide
     {
         public int ID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Title")]
         public string Title { get; set; }
-        [Required]
         [Display(Name = "Description")]
         public string Description { get; set; }
         public string PhotoPath { get; set; }
         public string MusicPath { get; set; }
         public byte SlideLength { get; set; }
-        [Range(0, Byte.MaxValue)]
+        [Required(ErrorMessage = "{0} is required.")]
+        [Range(0, Byte.MaxValue, ErrorMessage = "{0} value must be between {1} and {2}.")]
         [Display(Name = "Order")]
         public byte SortOrder { get; set; }
         [Display(Name = "Notice")]

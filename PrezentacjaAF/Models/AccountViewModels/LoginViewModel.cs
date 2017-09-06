@@ -8,11 +8,13 @@ namespace PrezentacjaAF.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "{0} is required.")]
+        [EmailAddress(ErrorMessage = "{0} field value is not a valid e-mail address.")]
         public string Email { get; set; }
 
-        [Required]
+        [Display(Name = "Password" )]
+        [Required(ErrorMessage = "{0} is required.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

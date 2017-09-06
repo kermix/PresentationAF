@@ -13,6 +13,9 @@ using PrezentacjaAF.Models;
 using PrezentacjaAF.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 namespace PrezentacjaAF
 {
@@ -36,6 +39,17 @@ namespace PrezentacjaAF
                 .AddDefaultTokenProviders();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+            var supportedCultures = new CultureInfo[]
+            {
+                new CultureInfo("pl-PL"),
+            };
+
+            services.Configure<RequestLocalizationOptions>(s =>
+            {
+                s.SupportedCultures = supportedCultures;
+                s.SupportedUICultures = supportedCultures;
+                s.DefaultRequestCulture = new RequestCulture(culture: "pl-PL", uiCulture: "pl-PL");
+            });
 
             // Add application services.
             services.AddAutoMapper(typeof(Startup));
@@ -59,6 +73,10 @@ namespace PrezentacjaAF
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseStaticFiles();
 
