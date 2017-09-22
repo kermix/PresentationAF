@@ -1,9 +1,8 @@
-@model PrezentacjaAF.Models.SlideViewModels.DeleteViewModel
+﻿@model PrezentacjaAF.Models.Section
 
 @{
-    ViewData["Title"] = Localizer["Delete slide"];
+    ViewData["Title"] = "Details";
 }
-
 @section Js{
     <environment names="Staging,Production">
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -23,28 +22,36 @@
         body {
             background-color: white !important;
         }
+
+        input,
+        select,
+        textarea {
+            max-width: 100% !important;
+        }
     </style>
 }
 
-<h2>@Localizer["Delete slide"]</h2>
+<h2>Details</h2>
 
-<h3>@Localizer["Are you sure you want to delete this?"]</h3>
 <div>
+    <h4>Section</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="ID" />
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Order)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="@Localizer["Delete slide"]" class="btn btn-default" /> |
-            <a asp-action="Index">@Localizer["Back to List"]</a>
-        </div>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

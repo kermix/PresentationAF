@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PrezentacjaAF.Data;
-using PrezentacjaAF.Models;
+using PrezentacjaAF.Models.SlideViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PrezentacjaAF.Controllers
 {
@@ -39,14 +40,17 @@ namespace PrezentacjaAF.Controllers
 
         // GET: Slides
         public async Task<IActionResult> Index()
-        {
-            return View(_mapper.Map<List<SlideViewModel>>(await _context.Slides
-                .OrderBy(c => c.SortOrder).ToListAsync()));
+        { 
+            return View(_mapper.Map<List<IndexViewModel>>(await _context.Slides
+                .Include(s => s.Section)
+                .OrderBy(c => c.SortOrder)
+                .ToListAsync()));
         }
 
         // GET: Slides/Create
         public IActionResult Create()
         {
+            ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name");
             return View();
         }
 
@@ -55,7 +59,7 @@ namespace PrezentacjaAF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SlideViewModel slide)
+        public async Task<IActionResult> Create(CreateEditViewModel slide)
         {
             VerifyDirs();
 
@@ -115,16 +119,19 @@ namespace PrezentacjaAF.Controllers
                 }
 
 
-                foreach (var s in _context.Slides.Where(c => c.SortOrder >= slide.SortOrder))
+                foreach (var s in _context.Slides.Where(c => 
+                    (c.SectionId == slide.SectionId) && 
+                    (c.SortOrder >= slide.SortOrder)))
                 {
                     s.SortOrder += 1;
                     _context.Entry(s).State = EntityState.Modified;
                 }
 
-                _context.Add(_mapper.Map<Slide>(slide));
+                _context.Add(_mapper.Map<PrezentacjaAF.Models.Slide>(slide));
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name", slide.SectionId);
             return View(slide);
         }
 
@@ -141,8 +148,8 @@ namespace PrezentacjaAF.Controllers
             {
                 return NotFound();
             }
-
-            return View(_mapper.Map<SlideViewModel>(slide));
+            ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name", slide.SectionId);
+            return View(_mapper.Map<CreateEditViewModel>(slide));
         }
 
         // POST: Slides/Edit/5
@@ -150,7 +157,7 @@ namespace PrezentacjaAF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SlideViewModel slide)
+        public async Task<IActionResult> Edit(int id, CreateEditViewModel slide)
         {
             VerifyDirs();
 
@@ -218,6 +225,7 @@ namespace PrezentacjaAF.Controllers
                         {
                             foreach (var s in _context.Slides
                                 .Where(c =>
+                                (c.SectionId == slide.SectionId) &&
                                 (c.SortOrder > editedSlide.SortOrder) &&
                                 (c.SortOrder <= slide.SortOrder))
                             )
@@ -231,6 +239,7 @@ namespace PrezentacjaAF.Controllers
                         {
                             foreach (var s in _context.Slides
                                 .Where(c =>
+                                (c.SectionId == slide.SectionId) &&
                                 (c.SortOrder < editedSlide.SortOrder) &&
                                 (c.SortOrder >= slide.SortOrder)))
                             {
@@ -244,12 +253,12 @@ namespace PrezentacjaAF.Controllers
                     if (slide.MusicFile != null && string.IsNullOrWhiteSpace(slide.MusicPath))
                         slide.MusicPath = Path.GetFileName(musicDir);
 
-                    _context.Update(_mapper.Map<Slide>(slide));
+                    _context.Update(_mapper.Map<PrezentacjaAF.Models.Slide>(slide));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SlideExists(_mapper.Map<Slide>(slide).ID))
+                    if (!SlideExists(_mapper.Map<PrezentacjaAF.Models.Slide>(slide).ID))
                     {
                         return NotFound();
                     }
@@ -258,7 +267,7 @@ namespace PrezentacjaAF.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             return View(slide);
         }
@@ -272,6 +281,7 @@ namespace PrezentacjaAF.Controllers
             }
 
             var slide = await _context.Slides
+                .Include(s => s.Section)
                 .SingleOrDefaultAsync(m => m.ID == id);
 
             if (slide == null)
@@ -279,7 +289,7 @@ namespace PrezentacjaAF.Controllers
                 return NotFound();
             }
 
-            return View(_mapper.Map<SlideViewModel>(slide));
+            return View(_mapper.Map<DeleteViewModel>(slide));
         }
 
         // POST: Slides/Delete/5
@@ -297,7 +307,9 @@ namespace PrezentacjaAF.Controllers
             if (!string.IsNullOrWhiteSpace(slide.MusicPath))
                 DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\music\", slide.MusicPath));
 
-            foreach (var s in _context.Slides.Where(c => c.SortOrder > slide.SortOrder))
+            foreach (var s in _context.Slides.Where(c =>
+                (c.SectionId == slide.SectionId) &&
+                (c.SortOrder > slide.SortOrder)))
             {
                 s.SortOrder -= 1;
                 _context.Entry(s).State = EntityState.Modified;
@@ -305,7 +317,7 @@ namespace PrezentacjaAF.Controllers
 
             _context.Slides.Remove(slide);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         private bool SlideExists(int id)

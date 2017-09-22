@@ -27,8 +27,11 @@ namespace PrezentacjaAF.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<List<SlideViewModel>>(await _context.Slides.
-                OrderBy(c => c.SortOrder).ToListAsync()));
+            ViewBag.Sections = _context.Sections.OrderBy(c => c.Order);
+            return View(_mapper.Map<List<Models.SlideViewModels.IndexViewModel>>(await _context.Slides
+                .Include(s => s.Section)
+                .OrderBy(c => c.SortOrder)
+                .ToListAsync()));
         }
 
         public IActionResult Error()

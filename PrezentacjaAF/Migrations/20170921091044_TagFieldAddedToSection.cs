@@ -2,15 +2,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace PrezentacjaAF.Data.Migrations
+namespace PrezentacjaAF.Migrations
 {
-    public partial class NoticeFiealdAdded : Migration
+    public partial class TagFieldAddedToSection : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Notice",
-                table: "Slides",
+                name: "Tag",
+                table: "Sections",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -18,8 +18,8 @@ namespace PrezentacjaAF.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Notice",
-                table: "Slides");
+                name: "Tag",
+                table: "Sections");
         }
     }
 }
