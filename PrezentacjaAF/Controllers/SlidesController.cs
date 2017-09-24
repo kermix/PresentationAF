@@ -240,7 +240,7 @@ namespace PrezentacjaAF.Controllers
 
         private void CalcImageDims(int imageWidth, int imageHeight, out int width, out int height, bool isThumb = false)
         {
-            int size = isThumb ? 64 : 2048;
+            int size = isThumb ? 64 : (imageWidth > imageHeight ? 2048 : 1080);
             if (imageWidth > imageHeight)
             {
                 width = size;
