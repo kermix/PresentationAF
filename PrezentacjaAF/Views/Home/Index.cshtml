@@ -75,7 +75,7 @@
                         {
                             @foreach (var slide in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
                             {
-                                <div class="slide">a</div>
+                                <div class="slide">@Html.Raw(@slide.Description)</div>
                             }
                         }
         </div>

@@ -9,7 +9,7 @@
         if (slide.length) {
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
-            if (element !== null && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
+            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
                 if ($.getCookie("muted") === "false") {
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
@@ -29,7 +29,7 @@
         if (slide.length) {
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
-            if (element !== null && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
+            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
                 if ($.getCookie("muted") === "false") {
                     audio.animate({ volume: 0 }, 500, function () {
                         audio[0].pause();
