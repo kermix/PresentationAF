@@ -95,10 +95,17 @@
         });
     });
 
+    function getAnchors() {
+        var anchors = new Array();
+        $(".section").each(function () {
+            anchors.push($(this).attr("data-anchor"));
+        })
+    }
+
     $('#fullpage').fullpage({
         verticalCentered: true,
         fitToSection: true,
-        anchors: ['mainSection'],
+        anchors: getAnchors(),
         afterLoad: function (anchorLink, index) {
             var loadedSection = $(this);
             if (loadedSection.attr("data-slideshow").toString() === "true") {
