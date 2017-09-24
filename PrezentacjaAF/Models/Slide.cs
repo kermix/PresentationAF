@@ -14,7 +14,9 @@ namespace PrezentacjaAF.Models
         public string Title { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
+        [Display(Name = "Photo")]
         public string PhotoPath { get; set; }
+        [Display(Name = "Music")]
         public string MusicPath { get; set; }
         public byte SlideLength { get; set; }
         [Required(ErrorMessage = "{0} is required.")]
@@ -25,6 +27,7 @@ namespace PrezentacjaAF.Models
         public string Notice { get; set; }
 
         public virtual int SectionId { get; set; }
+        [Display(Name = "Section")]
         public virtual Section Section { get; set; }
 
 

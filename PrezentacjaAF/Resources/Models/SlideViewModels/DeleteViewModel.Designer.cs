@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrezentacjaAF.Resources.Models {
+namespace PrezentacjaAF.Resources.Models.SlideViewModels {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PrezentacjaAF.Resources.Models {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SlideViewModel {
+    internal class DeleteViewModel {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SlideViewModel() {
+        internal DeleteViewModel() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PrezentacjaAF.Resources.Models {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Models.SlideViewModel", typeof(SlideViewModel).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Models.SlideViewModels.DeleteViewModel", typeof(DeleteViewModel).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,69 +57,6 @@ namespace PrezentacjaAF.Resources.Models {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu {0} is required..
-        /// </summary>
-        internal static string _0__is_required_ {
-            get {
-                return ResourceManager.GetString("{0} is required.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu {0} value must be between {1} and {2}..
-        /// </summary>
-        internal static string _0__value_must_be_between__1__and__2__ {
-            get {
-                return ResourceManager.GetString("{0} value must be between {1} and {2}.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Description.
-        /// </summary>
-        internal static string Description {
-            get {
-                return ResourceManager.GetString("Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Music.
-        /// </summary>
-        internal static string Music {
-            get {
-                return ResourceManager.GetString("Music", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Notice.
-        /// </summary>
-        internal static string Notice {
-            get {
-                return ResourceManager.GetString("Notice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Order.
-        /// </summary>
-        internal static string Order {
-            get {
-                return ResourceManager.GetString("Order", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Photo.
-        /// </summary>
-        internal static string Photo {
-            get {
-                return ResourceManager.GetString("Photo", resourceCulture);
             }
         }
         

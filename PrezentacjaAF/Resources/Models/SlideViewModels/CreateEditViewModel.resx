@@ -97,6 +97,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
   </data>
@@ -115,10 +121,7 @@
   <data name="Notice" xml:space="preserve">
     <value>Notice</value>
   </data>
-  <data name="Photo" xml:space="preserve">
-    <value>Photo</value>
-  </data>
-  <data name="Music" xml:space="preserve">
-    <value>Music</value>
+  <data name="Section" xml:space="preserve">
+    <value>Section</value>
   </data>
 </root>

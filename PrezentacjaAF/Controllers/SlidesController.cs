@@ -23,7 +23,6 @@ namespace PrezentacjaAF.Controllers
         PHOTO
     }
     [Authorize]
-    [RequireHttps]
     public class SlidesController : DefaultController
     {
         private readonly IStringLocalizer<SlidesController> _localizer;

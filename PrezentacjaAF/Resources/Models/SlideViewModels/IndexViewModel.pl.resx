@@ -141,4 +141,7 @@
   <data name="Music" xml:space="preserve">
     <value>Muzyka</value>
   </data>
+  <data name="Section" xml:space="preserve">
+    <value>Sekcja</value>
+  </data>
 </root>

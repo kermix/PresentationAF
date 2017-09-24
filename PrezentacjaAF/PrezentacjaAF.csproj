@@ -53,10 +53,25 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SlidesController.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Models\SlideViewModel.Designer.cs">
+    <Compile Update="Resources\Models\Slide.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>SlideViewModel.resx</DependentUpon>
+      <DependentUpon>Slide.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Models\SlideViewModels\CreateEditViewModel.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateEditViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Models\SlideViewModels\DeleteViewModel.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteViewModel.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Models\SlideViewModels\IndexViewModel.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IndexViewModel.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Views\Account\AccessDenied.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -128,12 +143,33 @@
     <EmbeddedResource Update="Resources\Models\AccountViewModels\LoginViewModel.pl.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Models\SlideViewModel.pl.resx">
+    <EmbeddedResource Update="Resources\Models\Slide.pl.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Models\SlideViewModel.resx">
+    <EmbeddedResource Update="Resources\Models\Slide.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SlideViewModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Slide.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\CreateEditViewModel.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\CreateEditViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CreateEditViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\DeleteViewModel.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\DeleteViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeleteViewModel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\IndexViewModel.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\SlideViewModels\IndexViewModel.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IndexViewModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Account\AccessDenied.pl.resx">
       <Generator>ResXFileCodeGenerator</Generator>
