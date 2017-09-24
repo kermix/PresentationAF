@@ -47,10 +47,11 @@ namespace PrezentacjaAF.Controllers
         }
 
         // GET: Slides/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            PrezentacjaAF.Models.Slide slide = await (_context.Slides.OrderByDescending(c => c.SortOrder).FirstOrDefaultAsync());
             ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name");
-            ViewData["SortOrder"] = (_context.Slides.Select(c => c.SortOrder).Max() + 1).ToString();
+            ViewData["SortOrder"] = (slide.SortOrder + 1).ToString();
             return View();
         }
 
