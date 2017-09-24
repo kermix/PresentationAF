@@ -68,7 +68,7 @@
             <div class="col-xs-6 form-group">
                 <label asp-for="SortOrder" class="col-md-2 control-label"></label>
                 <div class="col-md-10">
-                    <input asp-for="SortOrder" type="number" class="form-control" />
+                    <input asp-for="SortOrder" type="number" class="form-control" value="@ViewBag.SortOrder"/>
                     <span asp-validation-for="SortOrder" class="text-danger"></span>
                 </div>
             </div>

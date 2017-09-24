@@ -50,6 +50,7 @@ namespace PrezentacjaAF.Controllers
         public IActionResult Create()
         {
             ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name");
+            ViewData["SortOrder"] = (_context.Slides.Select(c => c.SortOrder).Max() + 1).ToString();
             return View();
         }
 
