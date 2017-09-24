@@ -9,7 +9,6 @@
         if (slide.length) {
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
-            console.log(element);
             if (element != null && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
                 if ($.getCookie("muted") === "false") {
                     element.volume = 0;
