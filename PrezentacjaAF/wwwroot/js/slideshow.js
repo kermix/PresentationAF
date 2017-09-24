@@ -9,7 +9,7 @@
         if (slide.length) {
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
-            if (element != null && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
+            if (element !== null && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
                 if ($.getCookie("muted") === "false") {
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
@@ -17,7 +17,7 @@
                     element.animate({ volume: 0.5 }, 2000);
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
-                    }, (element.duration * 1000) - 500);
+                    }, element.duration * 1000 - 500);
 
                 }
             }
@@ -29,7 +29,7 @@
         if (slide.length) {
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
-            if (element != null && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
+            if (element !== null && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
                 if ($.getCookie("muted") === "false") {
                     audio.animate({ volume: 0 }, 500, function () {
                         audio[0].pause();
@@ -57,9 +57,9 @@
         clearTimeout(moveSlideTimeout);
         if ($.getCookie("slideshow") === "true") {
             moveSlideTimeout = setTimeout(function () {
-                $.fn.fullpage.moveSlideRight()
+                $.fn.fullpage.moveSlideRight();
             },
-                parseInt($("#slideLength").val()) == 0 ? currentSlideDuration :
+                parseInt($("#slideLength").val()) === 0 ? currentSlideDuration :
                     parseInt($("#slideLength").val()));
         }
     }
