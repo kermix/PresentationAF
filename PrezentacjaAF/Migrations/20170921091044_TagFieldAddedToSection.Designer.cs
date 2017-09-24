@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using PrezentacjaAF.Data;
 using System;
 
-namespace PrezentacjaAF.Data.Migrations
+namespace PrezentacjaAF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170903131332_defValueForSlideLenght")]
-    partial class defValueForSlideLenght
+    [Migration("20170921091044_TagFieldAddedToSection")]
+    partial class TagFieldAddedToSection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,13 +180,30 @@ namespace PrezentacjaAF.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PrezentacjaAF.Models.Section", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsSlideshow");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte>("Order");
+
+                    b.Property<string>("Tag");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sections");
+                });
+
             modelBuilder.Entity("PrezentacjaAF.Models.Slide", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+                    b.Property<string>("Description");
 
                     b.Property<string>("MusicPath");
 
@@ -194,9 +211,9 @@ namespace PrezentacjaAF.Data.Migrations
 
                     b.Property<string>("PhotoPath");
 
-                    b.Property<byte>("SlideLength")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue((byte)30);
+                    b.Property<int>("SectionId");
+
+                    b.Property<byte>("SlideLength");
 
                     b.Property<byte>("SortOrder");
 
@@ -204,6 +221,8 @@ namespace PrezentacjaAF.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SectionId");
 
                     b.ToTable("Slides");
                 });
@@ -250,6 +269,14 @@ namespace PrezentacjaAF.Data.Migrations
                     b.HasOne("PrezentacjaAF.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PrezentacjaAF.Models.Slide", b =>
+                {
+                    b.HasOne("PrezentacjaAF.Models.Section", "Section")
+                        .WithMany("Slides")
+                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

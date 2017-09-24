@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="test\**" />
+    <Content Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\App_Offline.htm" />
   </ItemGroup>
 
@@ -201,7 +208,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="test\" />
+    <Folder Include="Connected Services\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

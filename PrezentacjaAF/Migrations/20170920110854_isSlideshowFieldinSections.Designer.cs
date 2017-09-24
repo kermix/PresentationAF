@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using PrezentacjaAF.Data;
 using System;
 
-namespace PrezentacjaAF.Data.Migrations
+namespace PrezentacjaAF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170903011251_NoticeFiealdAdded")]
-    partial class NoticeFiealdAdded
+    [Migration("20170920110854_isSlideshowFieldinSections")]
+    partial class isSlideshowFieldinSections
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,19 +180,36 @@ namespace PrezentacjaAF.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PrezentacjaAF.Models.Section", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsSlideshow");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte>("Order");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sections");
+                });
+
             modelBuilder.Entity("PrezentacjaAF.Models.Slide", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+                    b.Property<string>("Description");
 
                     b.Property<string>("MusicPath");
 
                     b.Property<string>("Notice");
 
                     b.Property<string>("PhotoPath");
+
+                    b.Property<int>("SectionId");
 
                     b.Property<byte>("SlideLength");
 
@@ -202,6 +219,8 @@ namespace PrezentacjaAF.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SectionId");
 
                     b.ToTable("Slides");
                 });
@@ -248,6 +267,14 @@ namespace PrezentacjaAF.Data.Migrations
                     b.HasOne("PrezentacjaAF.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PrezentacjaAF.Models.Slide", b =>
+                {
+                    b.HasOne("PrezentacjaAF.Models.Section", "Section")
+                        .WithMany("Slides")
+                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

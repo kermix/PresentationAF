@@ -1,4 +1,4 @@
-@model IEnumerable<PrezentacjaAF.Models.SlideViewModel>
+@model IEnumerable<PrezentacjaAF.Models.SlideViewModels.IndexViewModel>
 
 @{
     ViewData["Title"] = Localizer["Index "];
@@ -47,8 +47,11 @@
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhotoFile)
+                    @Html.DisplayNameFor(model => model.PhotoPath)
                 </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Section)
+            </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Notice)
                 </th>
@@ -67,6 +70,9 @@
             <td>
                 <img src="\uploads\photos\thumbs\@(item.PhotoPath)" class="img-thumbnail" style="width:60px; height:auto;"/>
             </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Section.Name)
+            </th>
             <td style="text-align:center; vertical-align:middle">
             @if (!string.IsNullOrWhiteSpace(item.Notice))
             {

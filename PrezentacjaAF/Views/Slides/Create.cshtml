@@ -1,4 +1,4 @@
-@model PrezentacjaAF.Models.SlideViewModel
+@model PrezentacjaAF.Models.SlideViewModels.CreateEditViewModel
 
 @{
     ViewData["Title"] = Localizer["Create new"];
@@ -10,6 +10,8 @@
     <environment names="Development">
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     </environment>
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?api_key=sxn3c5fbdrt1e2nbo1ews67t0k8jha5n0w5pm81yiwi7vzl7"></script>
+<script>tinymce.init({ selector: 'textarea' });</script>
 }
 @section Css{
     <environment names="Staging,Production">
@@ -66,7 +68,7 @@
             <div class="col-xs-6 form-group">
                 <label asp-for="SortOrder" class="col-md-2 control-label"></label>
                 <div class="col-md-10">
-                    <input asp-for="SortOrder" type="number" form-control" />
+                    <input asp-for="SortOrder" type="number" class="form-control" />
                     <span asp-validation-for="SortOrder" class="text-danger"></span>
                 </div>
             </div>
@@ -75,7 +77,7 @@
             <div class="col-xs-6 form-group">
                 <label asp-for="PhotoFile" class="col-md-2 control-label"></label>
                 <div class="col-md-10">
-                    <input type="file" name="PhotoFile" class="form-control" accept="image/jpeg, image/png" />
+                    <input type="file" name="PhotoFile" class="form-control" accept="image/jpeg" />
                     <span asp-validation-for="PhotoFile" class="text-danger"></span>
                 </div>
             </div>
@@ -88,6 +90,15 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-6 form-group">
+                <label asp-for="Section" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="SectionId" class="form-control" asp-items="ViewBag.Section"></select>
+                    <span asp-validation-for="SectionId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>        
         <div class="row">
             <div class="col-xs-6 form-group">
                 <div class="col-md-offset-2 col-md-10">

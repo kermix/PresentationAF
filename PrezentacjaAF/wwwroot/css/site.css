@@ -15,6 +15,8 @@ textarea {
     }
 }
 
+#fullpage{color: wheat}
+
 #slide-container {
     height: 90vh;
     display: flex;
@@ -68,6 +70,14 @@ textarea {
 
 /* Slides control buttons*/
 
+#slideshowControls{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 999;
+}
 #slideshowButton, #muteButton, #fullscreenButton {
     color: white;
     background-color: Transparent;
@@ -84,7 +94,7 @@ textarea {
     }
 
 #buttonsContainer {
-    position: fixed;
+    position: absolute;
     top: 10px;
     left: 10px;
     z-index: 999;
@@ -93,7 +103,7 @@ textarea {
 /*Slide duration dropdown*/
 
 label.slideLength {
-    position: fixed;
+    position: absolute;
     top: 10px;
     right: 10px;
     z-index: 999;
@@ -120,7 +130,7 @@ label.slideLength {
  #slidesNav {
         width: 95%;
         white-space: nowrap;
-        position: fixed;
+        position: absolute;
         bottom: 0px;
         left: 0;
         right: 0;

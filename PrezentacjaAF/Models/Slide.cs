@@ -24,6 +24,9 @@ namespace PrezentacjaAF.Models
         [Display(Name = "Notice")]
         public string Notice { get; set; }
 
+        public virtual int SectionId { get; set; }
+        public virtual Section Section { get; set; }
+
 
     }
 }
