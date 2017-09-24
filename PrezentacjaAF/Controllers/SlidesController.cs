@@ -238,9 +238,9 @@ namespace PrezentacjaAF.Controllers
                 System.IO.File.Delete(dir);
         }
 
-        private void CalcImageDims(int imageWidth, int imageHeight, out int width, out int height)
+        private void CalcImageDims(int imageWidth, int imageHeight, out int width, out int height, bool isThumb = false)
         {
-            const int size = 50;
+            int size = isThumb ? 64 : 2048;
             if (imageWidth > imageHeight)
             {
                 width = size;
@@ -278,10 +278,15 @@ namespace PrezentacjaAF.Controllers
             {
                 int width, height;
                 CalcImageDims(image.Width, image.Height, out width, out height);
-                image.Save(photoDir);
-                if(createThumb)
-                image.Resize(width, height)
+                image.Resize(width, height).Save(photoDir);
+                if (createThumb)
+                {
+                    CalcImageDims(image.Width, image.Height, out width, out height, true);
+                    image.Resize(width, height)
                      .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + Path.GetFileName(photoDir));
+
+                }
+                
             }
         }
 
