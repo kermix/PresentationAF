@@ -12,13 +12,11 @@ using System.Globalization;
 
 namespace PrezentacjaAF.Controllers
 {
-    public class SectionsController : Controller
+    public class SectionsController : DefaultController
     {
-        private readonly ApplicationDbContext _context;
-
         public SectionsController(ApplicationDbContext context)
+            :base(context)
         {
-            _context = context;
         }
 
         // GET: Sections

@@ -13,9 +13,14 @@ namespace PrezentacjaAF.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
         public DbSet<Slide> Slides { get; set; }
         public DbSet<Section> Sections { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+                optionsBuilder
+                    .EnableSensitiveDataLogging();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

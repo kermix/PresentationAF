@@ -21,9 +21,15 @@ namespace PrezentacjaAF
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            if (!System.IO.Directory.Exists(env.WebRootPath + @"\uploads\photos\"))
+                System.IO.Directory.CreateDirectory(env.WebRootPath + @"\uploads\photos\");
+            if (!System.IO.Directory.Exists(env.WebRootPath + @"\uploads\photos\thumbs\"))
+                System.IO.Directory.CreateDirectory(env.WebRootPath + @"\uploads\photos\thumbs\");
+            if (!System.IO.Directory.Exists(env.WebRootPath + @"\uploads\music"))
+                System.IO.Directory.CreateDirectory(env.WebRootPath + @"\uploads\music\");
         }
 
         public IConfiguration Configuration { get; }

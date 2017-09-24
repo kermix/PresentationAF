@@ -2,9 +2,11 @@
 using ImageSharp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Localization;
 using PrezentacjaAF.Data;
 using PrezentacjaAF.Models.SlideViewModels;
 using System;
@@ -12,35 +14,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PrezentacjaAF.Controllers
 {
+    enum FileType
+    {
+        MUSIC,
+        PHOTO
+    }
     [Authorize]
     [RequireHttps]
-    public class SlidesController : Controller
+    public class SlidesController : DefaultController
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IHostingEnvironment _env;
-        private readonly IMapper _mapper;
         private readonly IStringLocalizer<SlidesController> _localizer;
 
         public SlidesController(
-            ApplicationDbContext context, 
-            IHostingEnvironment env, 
-            IMapper mapper, 
+            ApplicationDbContext context,
+            IHostingEnvironment env,
+            IMapper mapper,
             IStringLocalizer<SlidesController> localizer)
+                : base(context, env, mapper)
         {
-            _context = context;
-            _env = env;
-            _mapper = mapper;
             _localizer = localizer;
         }
 
         // GET: Slides
         public async Task<IActionResult> Index()
-        { 
+        {
             return View(_mapper.Map<List<IndexViewModel>>(await _context.Slides
                 .Include(s => s.Section)
                 .OrderBy(c => c.SortOrder)
@@ -61,12 +61,9 @@ namespace PrezentacjaAF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateEditViewModel slide)
         {
-            VerifyDirs();
-
-            if (slide.PhotoFile == null)
-                ModelState.AddModelError("PhotoFile", _localizer["File is not uploaded."]);
+            if (slide.PhotoFile == null) ModelState.AddModelError("PhotoFile", _localizer["File is not uploaded."]);
             else if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
-                Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
+                        Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
                 ModelState.AddModelError("PhotoFile", _localizer["Wrong file extension."]);
 
             if (slide.MusicFile != null && Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
@@ -80,52 +77,16 @@ namespace PrezentacjaAF.Controllers
 
             if (ModelState.IsValid)
             {
-                string photoDir = "";
-                string musicDir = "";
-                if (slide.PhotoFile.Length > 0)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.PhotoFile.FileName);
-                    photoDir = _env.WebRootPath + @"\uploads\photos\" + fileName;
-                    using (var stream = new FileStream(photoDir, FileMode.Create))
-                    {
-                        await slide.PhotoFile.CopyToAsync(stream);
-                    }
-                    using (Image<Rgba32> image = Image.Load(photoDir))
-                    {
-                        int width, height;
-                        CalcImageDims(image.Width, image.Height, out width, out height);
-                        image.Save(photoDir);
-                        image.Resize(width, height)
-                             .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + fileName);
-                    }
-                    slide.PhotoPath = Path.GetFileName(photoDir);
-                }
+                slide.PhotoPath = await UploadFile(slide.PhotoFile, FileType.PHOTO);
                 if (slide.MusicFile != null)
+                    slide.MusicPath = await UploadFile(slide.MusicFile, FileType.MUSIC);
+                else
                 {
-                    if (slide.MusicFile.Length > 0)
-                    {
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(slide.MusicFile.FileName);
-                        musicDir = _env.WebRootPath + @"\uploads\music\" + fileName;
-                        using (var stream = new FileStream(musicDir, FileMode.Create))
-                        {
-                            await slide.MusicFile.CopyToAsync(stream);
-                        }
-                        slide.MusicPath = Path.GetFileName(musicDir);
-                    }
-                }
-                else {
                     slide.SlideLength = 30;
                     slide.MusicPath = @"silence.mp3";
                 }
 
-
-                foreach (var s in _context.Slides.Where(c => 
-                    (c.SectionId == slide.SectionId) && 
-                    (c.SortOrder >= slide.SortOrder)))
-                {
-                    s.SortOrder += 1;
-                    _context.Entry(s).State = EntityState.Modified;
-                }
+                MoveSortOrder(slide.SortOrder, slide.SectionId, Direction.UP);
 
                 _context.Add(_mapper.Map<PrezentacjaAF.Models.Slide>(slide));
                 await _context.SaveChangesAsync();
@@ -159,18 +120,14 @@ namespace PrezentacjaAF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateEditViewModel slide)
         {
-            VerifyDirs();
-
-            //TODO: Have not to add files when editing.
             if (id != slide.ID)
             {
                 return NotFound();
             }
 
-            if (slide.PhotoFile != null)
-                if (Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
-                    Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
-                    ModelState.AddModelError("PhotoFile", _localizer["Wrong file extension."]);
+            if (slide.PhotoFile != null && Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpg" &&
+                Path.GetExtension(slide.PhotoFile.FileName).ToLower() != ".jpeg")
+                ModelState.AddModelError("PhotoFile", _localizer["Wrong file extension."]);
 
             if (slide.MusicFile != null)
                 if (Path.GetExtension(slide.MusicFile.FileName).ToLower() != ".mp3")
@@ -184,74 +141,29 @@ namespace PrezentacjaAF.Controllers
 
             if (ModelState.IsValid)
             {
-                string photoDir = "";
-                string musicDir = "";
-                if (slide.PhotoFile != null && slide.PhotoFile.Length > 0)
+                if (slide.PhotoFile != null)
                 {
-                    string fileName = String.IsNullOrWhiteSpace(slide.PhotoPath) ?
-                        Guid.NewGuid().ToString() + Path.GetExtension(slide.PhotoFile.FileName) :
-                        slide.PhotoPath;
-                    photoDir = _env.WebRootPath + @"\uploads\photos\" + fileName;
-                    using (var stream = new FileStream(photoDir, FileMode.Create))
-                    {
-                        await slide.PhotoFile.CopyToAsync(stream);
-                    }
-                    using (Image<Rgba32> image = Image.Load(photoDir))
-                    {
-                        int width, height;
-                        CalcImageDims(image.Width, image.Height, out width, out height);
-                        image.Save(photoDir);
-                        image.Resize(width, height)
-                             .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + slide.PhotoPath);
-                    }
+                    DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\photos\", slide.PhotoPath));
+                    DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\photos\thumbs\", slide.PhotoPath));
+                    slide.PhotoPath = await UploadFile(slide.PhotoFile, FileType.PHOTO);
                 }
-                if (slide.MusicFile != null && slide.MusicFile.Length > 0)
+                if (slide.MusicFile != null)
                 {
-                    string fileName = String.IsNullOrWhiteSpace(slide.MusicPath) ?
-                        Guid.NewGuid().ToString() + Path.GetExtension(slide.MusicFile.FileName) :
-                        slide.MusicPath;
-                    musicDir = _env.WebRootPath + @"\uploads\music\" + fileName;
-                    using (var stream = new FileStream(musicDir, FileMode.Create))
-                    {
-                        await slide.MusicFile.CopyToAsync(stream);
-                    }
+                    if(slide.MusicPath != "silence.mp3")
+                        DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\music\", slide.MusicPath));
+                    slide.MusicPath = await UploadFile(slide.MusicFile, FileType.MUSIC);
                 }
                 try
                 {
-                    var editedSlide = await _context.Slides.AsNoTracking().FirstOrDefaultAsync(c => c.ID == slide.ID);
+                    var editedSlide = _context.Slides.AsNoTracking().FirstOrDefault(c => c.ID == slide.ID);
                     if (slide.SortOrder != editedSlide.SortOrder)
                     {
-                        if (slide.SortOrder > editedSlide.SortOrder)
-                        {
-                            foreach (var s in _context.Slides
-                                .Where(c =>
-                                (c.SectionId == slide.SectionId) &&
-                                (c.SortOrder > editedSlide.SortOrder) &&
-                                (c.SortOrder <= slide.SortOrder))
-                            )
-                            {
-                                s.SortOrder -= 1;
-                                _context.Entry(s).State = EntityState.Modified;
-                            }
-                        }
-
-                        if (slide.SortOrder < editedSlide.SortOrder)
-                        {
-                            foreach (var s in _context.Slides
-                                .Where(c =>
-                                (c.SectionId == slide.SectionId) &&
-                                (c.SortOrder < editedSlide.SortOrder) &&
-                                (c.SortOrder >= slide.SortOrder)))
-                            {
-                                s.SortOrder += 1;
-                                _context.Entry(s).State = EntityState.Modified;
-                            }
-                        }
+                        MoveSortOrder(
+                            (slide.SortOrder > editedSlide.SortOrder) ? (byte)(slide.SortOrder + 1) : slide.SortOrder, 
+                            slide.SectionId, Direction.UP, 
+                            slide.ID);
+                        MoveSortOrder(editedSlide.SortOrder, slide.SectionId, Direction.DOWN, slide.ID);
                     }
-                    if (slide.PhotoFile != null && string.IsNullOrWhiteSpace(slide.PhotoPath))
-                        slide.PhotoPath = Path.GetFileName(photoDir);
-                    if (slide.MusicFile != null && string.IsNullOrWhiteSpace(slide.MusicPath))
-                        slide.MusicPath = Path.GetFileName(musicDir);
 
                     _context.Update(_mapper.Map<PrezentacjaAF.Models.Slide>(slide));
                     await _context.SaveChangesAsync();
@@ -304,16 +216,10 @@ namespace PrezentacjaAF.Controllers
                 DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\photos\", slide.PhotoPath));
                 DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\photos\thumbs\", slide.PhotoPath));
             }
-            if (!string.IsNullOrWhiteSpace(slide.MusicPath))
+            if (!string.IsNullOrWhiteSpace(slide.MusicPath) && slide.MusicPath != "silence.mp3")
                 DeleteFile(System.IO.Path.Combine(_env.WebRootPath + @"\uploads\music\", slide.MusicPath));
 
-            foreach (var s in _context.Slides.Where(c =>
-                (c.SectionId == slide.SectionId) &&
-                (c.SortOrder > slide.SortOrder)))
-            {
-                s.SortOrder -= 1;
-                _context.Entry(s).State = EntityState.Modified;
-            }
+            MoveSortOrder(slide.SortOrder, slide.SectionId, Direction.DOWN);
 
             _context.Slides.Remove(slide);
             await _context.SaveChangesAsync();
@@ -331,16 +237,6 @@ namespace PrezentacjaAF.Controllers
                 System.IO.File.Delete(dir);
         }
 
-        private void VerifyDirs()
-        {
-            if (!System.IO.Directory.Exists( _env.WebRootPath + @"\uploads\photos\"))
-                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\photos\");
-            if (!System.IO.Directory.Exists(_env.WebRootPath + @"\uploads\photos\thumbs\"))
-                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\photos\thumbs\");
-            if (!System.IO.Directory.Exists(_env.WebRootPath + @"\uploads\music"))
-                System.IO.Directory.CreateDirectory(_env.WebRootPath + @"\uploads\music\");
-        }
-
         private void CalcImageDims(int imageWidth, int imageHeight, out int width, out int height)
         {
             const int size = 50;
@@ -353,6 +249,38 @@ namespace PrezentacjaAF.Controllers
             {
                 width = Convert.ToInt32(imageWidth * size / (double)imageHeight);
                 height = size;
+            }
+        }
+
+        private async Task<string> UploadFile(IFormFile file, FileType fileType)
+        {
+            if (file.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string fileDir = _env.WebRootPath + @"\uploads\" + (fileType == FileType.MUSIC ? "music" : "photos") + "/" + fileName;
+                using (var stream = new FileStream(fileDir, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                if (fileType == FileType.PHOTO)
+                    PrepareImage(fileDir, true);
+
+                return Path.GetFileName(fileDir);
+            }
+            return "";
+        }
+
+        private void PrepareImage(string photoDir, bool createThumb)
+        {
+            using (Image<Rgba32> image = Image.Load(photoDir))
+            {
+                int width, height;
+                CalcImageDims(image.Width, image.Height, out width, out height);
+                image.Save(photoDir);
+                if(createThumb)
+                image.Resize(width, height)
+                     .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + Path.GetFileName(photoDir));
             }
         }
 
