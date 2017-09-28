@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ImageSharp;
+using SixLabors.ImageSharp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +22,7 @@ namespace PrezentacjaAF.Controllers
         MUSIC,
         PHOTO
     }
+    [RequireHttps]
     [Authorize]
     public class SlidesController : DefaultController
     {
@@ -278,12 +279,13 @@ namespace PrezentacjaAF.Controllers
             {
                 int width, height;
                 CalcImageDims(image.Width, image.Height, out width, out height);
-                image.Resize(width, height).Save(photoDir);
+                image.Mutate(x => x.Resize(width, height));
+                image.Save(photoDir);
                 if (createThumb)
                 {
                     CalcImageDims(image.Width, image.Height, out width, out height, true);
-                    image.Resize(width, height)
-                     .Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + Path.GetFileName(photoDir));
+                    image.Mutate(x => x.Resize(width, height));
+                    image.Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + Path.GetFileName(photoDir));
 
                 }
                 
