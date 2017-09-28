@@ -9,14 +9,15 @@
         if (slide.length) {
             console.log("playFuncition");
             var audio = $(slide).find('audio');
-            var element = $(audio).get(0);
+            var elementNode = $(audio);
+            var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
                 if ($.getCookie("muted") === "false") {
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
                     console.log("play");
-                    element.animate({ volume: 0.5 }, 2000);
+                    elementNode.animate({ volume: 0.5 }, 2000);
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
                         console.log("timeoutStop");

@@ -52,7 +52,7 @@ namespace PrezentacjaAF.Controllers
         {
             PrezentacjaAF.Models.Slide slide = await (_context.Slides.OrderByDescending(c => c.SortOrder).FirstOrDefaultAsync());
             ViewData["Section"] = new SelectList(_context.Sections, "Id", "Name");
-            ViewData["SortOrder"] = (slide.SortOrder + 1).ToString();
+            ViewData["SortOrder"] = slide != null ? (slide.SortOrder + 1).ToString() : "1";
             return View();
         }
 
