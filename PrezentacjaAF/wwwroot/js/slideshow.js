@@ -14,9 +14,11 @@
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
+                    console.log("play");
                     element.animate({ volume: 0.5 }, 2000);
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
+                        console.log("timeoutStop");
                     }, element.duration * 1000 - 500);
 
                 }
@@ -33,6 +35,7 @@
                 if ($.getCookie("muted") === "false") {
                     audio.animate({ volume: 0 }, 500, function () {
                         audio[0].pause();
+                        console.log("stop");
                         audio[0].currentTime = 0;
                     });
                 }
