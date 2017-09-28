@@ -50,6 +50,9 @@
                     @Html.DisplayNameFor(model => model.PhotoPath)
                 </th>
             <th>
+                @Html.DisplayNameFor(model => model.MusicPath)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Section)
             </th>
                 <th>
@@ -69,6 +72,12 @@
             </td>
             <td>
                 <img src="\uploads\photos\thumbs\@(item.PhotoPath)" class="img-thumbnail" style="width:60px; height:auto;"/>
+            </td>
+            <td style="text-align:center; vertical-align:middle">
+                @if (!string.IsNullOrWhiteSpace(item.MusicPath) && item.MusicPath != "silence.mp3")
+                {
+                    <i class="fa fa-music" aria-hidden="true" style="color: black;"></i>
+                }
             </td>
             <th>
                 @Html.DisplayFor(modelItem => item.Section.Name)
