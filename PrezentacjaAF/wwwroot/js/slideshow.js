@@ -21,7 +21,7 @@
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
                         console.log("timeoutStop");
-                    }, element.duration * 1000 - 500);
+                    }, currentSlideDuration - 500);
 
                 }
             }
