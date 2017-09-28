@@ -7,6 +7,7 @@
     function playAudio() {
         var slide = $(".fp-section.fp-completely .fp-slide.active");
         if (slide.length) {
+            console.log("playFuncition");
             var audio = $(slide).find('audio');
             var element = $(audio).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
@@ -102,7 +103,7 @@
         var anchors = new Array();
         $(".section").each(function () {
             anchors.push($(this).attr("data-anchor"));
-        })
+        });
     }
 
     $('#fullpage').fullpage({
