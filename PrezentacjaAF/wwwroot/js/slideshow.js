@@ -32,13 +32,14 @@
         var slide = $(".fp-section.fp-completely .fp-slide.active");
         if (slide.length) {
             var audio = $(slide).find('audio');
-            var element = $(audio).get(0);
+            var elementNode = $(audio);
+            var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
                 if ($.getCookie("muted") === "false") {
-                    audio.animate({ volume: 0 }, 500, function () {
-                        audio[0].pause();
+                    elementNode.animate({ volume: 0 }, 500, function () {
+                        element.pause();
                         console.log("stop");
-                        audio[0].currentTime = 0;
+                        element.currentTime = 0;
                     });
                 }
             }
