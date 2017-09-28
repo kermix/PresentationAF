@@ -132,4 +132,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Podgląd</value>
+  </data>
 </root>
