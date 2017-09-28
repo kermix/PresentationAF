@@ -17,7 +17,7 @@
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
                     console.log("play");
-                    elementNode.animate({ volume: 0.5 }, 2000);
+                    elementNode.animate({ volume: 0.3 }, 2000);
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
                         console.log("timeoutStop");
