@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace PrezentacjaAF.Controllers
 {
@@ -87,6 +88,7 @@ namespace PrezentacjaAF.Controllers
                     slide.SlideLength = 30;
                     slide.MusicPath = @"silence.mp3";
                 }
+                slide.Title = NormalizeTitle(slide.Title);
 
                 MoveSortOrder(slide.SortOrder, slide.SectionId, Direction.UP);
 
@@ -166,8 +168,10 @@ namespace PrezentacjaAF.Controllers
                             slide.ID);
                         MoveSortOrder(editedSlide.SortOrder, slide.SectionId, Direction.DOWN, slide.ID);
                     }
-
+                    slide.Title = NormalizeTitle(slide.Title);
                     _context.Update(_mapper.Map<PrezentacjaAF.Models.Slide>(slide));
+                    slide.Title = NormalizeTitle(slide.Title);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -290,6 +294,11 @@ namespace PrezentacjaAF.Controllers
                 }
                 
             }
+        }
+
+        private string NormalizeTitle(string input)
+        {
+            return Regex.Replace(input, @"^.*?(?=/)", m => m.ToString().ToUpper());
         }
 
     }
