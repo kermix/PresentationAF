@@ -32,10 +32,10 @@
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
-                    elementNode.animate({ volume: 0 }, 500, function () {
-                        element.pause();
-                        element.currentTime = 0;
-                    });
+                elementNode.animate({ volume: 0 }, 500, function () {
+                    element.pause();
+                    element.currentTime = 0;
+                });
             }
         }
         clearTimeout(audioFadeOutTimeout);
@@ -59,8 +59,9 @@
             moveSlideTimeout = setTimeout(function () {
                 $.fn.fullpage.moveSlideRight();
             },
-                parseInt($("#slideLength").val()) === 0 ? currentSlideDuration :
-                    parseInt($("#slideLength").val()));
+                parseInt($("#slideLength").val()) === 0 ?
+                    ($.getCookie("muted") === "false" ?
+                        currentSlideDuration : 15000) : parseInt($("#slideLength").val()));
         }
     }
 
@@ -72,6 +73,7 @@
             $(this).addClass("active");
             stopAudio();
         }
+        setMoveSlideTimeout();
     });
 
     $("#slideshowButton").on("click", function () {
