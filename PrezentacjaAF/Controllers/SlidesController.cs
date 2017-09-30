@@ -290,7 +290,6 @@ namespace PrezentacjaAF.Controllers
                     CalcImageDims(image.Width, image.Height, out width, out height, true);
                     image.Mutate(x => x.Resize(width, height));
                     image.Save(_env.WebRootPath + @"\uploads\photos\thumbs\" + Path.GetFileName(photoDir));
-
                 }
                 
             }

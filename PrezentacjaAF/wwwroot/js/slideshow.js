@@ -7,7 +7,6 @@
     function playAudio() {
         var slide = $(".fp-section.fp-completely .fp-slide.active");
         if (slide.length) {
-            console.log("playFuncition");
             var audio = $(slide).find('audio');
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
@@ -16,11 +15,9 @@
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
-                    console.log("play");
                     elementNode.animate({ volume: 0.3 }, 2000);
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
-                        console.log("timeoutStop");
                     }, currentSlideDuration - 500);
 
                 }
@@ -35,13 +32,10 @@
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
-                if ($.getCookie("muted") === "false") {
                     elementNode.animate({ volume: 0 }, 500, function () {
                         element.pause();
-                        console.log("stop");
                         element.currentTime = 0;
                     });
-                }
             }
         }
         clearTimeout(audioFadeOutTimeout);
