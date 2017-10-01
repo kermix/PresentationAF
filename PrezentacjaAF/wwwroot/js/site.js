@@ -27,6 +27,4 @@
         $.setCookie("slideDuration", parseInt($("#slideLength").val()).toString(), 30);
     });
     
-
-
 });

@@ -117,16 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Index " xml:space="preserve">
-    <value>Indeks</value>
-  </data>
-  <data name="Create new" xml:space="preserve">
-    <value>Utwórz nowy</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edytuj</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Usuń</value>
+  <data name="Log out" xml:space="preserve">
+    <value>Wyloguj</value>
   </data>
 </root>

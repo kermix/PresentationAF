@@ -23,23 +23,22 @@
     </environment>
 }
 <div id="slideshowControls">
-        <div id="buttonsContainer">
-            <button id="slideshowButton"><i class="fa fa-play" aria-hidden="true"></i></button>
-            <button id="muteButton"><i class="fa fa-music" aria-hidden="true"></i></button>
-            <button id="fullscreenButton" onclick="screenfull.toggle();"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
-        </div>
-        <label class="slideLength">
-            <select id="slideLength">
-                <option value="0">@Localizer["Default"]</option>
-                <option value="10000">10s</option>
-                <option value="15000">15s</option>
-                <option value="30000">30s</option>
-                <option value="60000">1min</option>
-            </select>
-        </label>
+    <div id="buttonsContainer">
+        <button id="slideshowButton"><i class="fa fa-play" aria-hidden="true"></i></button>
+        <button id="muteButton"><i class="fa fa-music" aria-hidden="true"></i></button>
+        <button id="fullscreenButton" onclick="screenfull.toggle();"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
     </div>
+    <label class="slideLength">
+        <select id="slideLength">
+            <option value="0">@Localizer["Default"]</option>
+            <option value="10000">10s</option>
+            <option value="15000">15s</option>
+            <option value="30000">30s</option>
+            <option value="60000">1min</option>
+        </select>
+    </label>
+</div>
 <div id="fullpage">
-    
     @foreach (var section in ViewBag.Sections)
     {
         <div class="section" data-anchor=@(((PrezentacjaAF.Models.Section)(section)).Tag) @(((PrezentacjaAF.Models.Section)(section)).IsSlideshow ? "data-slideshow=true" : "data-slideshow=false")>
@@ -70,16 +69,21 @@
                         <div><a href="#@(item.Section.Tag)/@(item.ID)"><img data-link="@(item.ID)" src="/uploads/photos/thumbs/@item.PhotoPath" /></a></div>
                     }
                 </div>
-                        }
-                        else
-                        {
-                            @foreach (var slide in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
-                            {
-                                <div class="slide">@Html.Raw(@slide.Description)</div>
-                            }
-                        }
+            }
+            else
+            {
+                @foreach (var slide in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                {
+                    <div class="slide">@Html.Raw(@slide.Description)</div>
+                }
+            }
         </div>
-                        }
+    }
+    <div class="section" data-anchor="footer" data-slideshow="false">
+        <footer>
+                <p>Prawa autorskie 2017 - <a href="mailto:andrzejf1611@gmail.com">Andrzej Furmaniak</a>. Prawa autorskie do prac graficznych i zdjęć należą do Andrzeja Furmaniaka.</p>
+                <p>Wykonawcą strony jest <a href="mailto:kermaxpl@gmail.com">Mateusz Jamrowski</a>.</p>
+        </footer>
 </div>
 @section Scripts{
     <environment names="Staging,Production">

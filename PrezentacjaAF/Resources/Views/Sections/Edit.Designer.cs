@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrezentacjaAF.Resources.Views.Slides {
+namespace PrezentacjaAF.Resources.Views.Sections {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PrezentacjaAF.Resources.Views.Slides {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Index {
+    internal class Edit {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Index() {
+        internal Edit() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Slides.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Sections.Edit", typeof(Edit).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,29 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new.
+        ///   Looks up a localized string similar to Back to List.
         /// </summary>
-        internal static string Create_new {
+        internal static string Back_to_List {
             get {
-                return ResourceManager.GetString("Create new", resourceCulture);
+                return ResourceManager.GetString("Back to List", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Edit section.
         /// </summary>
-        internal static string Delete {
+        internal static string Edit_section {
             get {
-                return ResourceManager.GetString("Delete", resourceCulture);
+                return ResourceManager.GetString("Edit section", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string Edit {
+        internal static string Save {
             get {
-                return ResourceManager.GetString("Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Index .
-        /// </summary>
-        internal static string Index_ {
-            get {
-                return ResourceManager.GetString("Index ", resourceCulture);
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
     }

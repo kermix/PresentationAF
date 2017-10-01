@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrezentacjaAF.Resources.Views.Slides {
+namespace PrezentacjaAF.Resources.Views.Sections {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Slides.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Sections.Index", typeof(Index).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new.
+        ///   Looks up a localized string similar to Create New.
         /// </summary>
-        internal static string Create_new {
+        internal static string Create_New {
             get {
-                return ResourceManager.GetString("Create new", resourceCulture);
+                return ResourceManager.GetString("Create New", resourceCulture);
             }
         }
         

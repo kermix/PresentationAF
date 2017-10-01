@@ -4,28 +4,6 @@
     ViewData["Title"] = Localizer["Delete slide"];
 }
 
-@section Js{
-    <environment names="Staging,Production">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    </environment>
-    <environment names="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    </environment>
-}
-@section Css{
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    </environment>
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <style>
-        body {
-            background-color: white !important;
-        }
-    </style>
-}
-
 <h2>@Localizer["Delete slide"]</h2>
 
 <h3>@Localizer["Are you sure you want to delete this?"]</h3>

@@ -2,35 +2,7 @@
 
 @{
     ViewData["Title"] = Localizer["Create new"];
-}
-@section Js{
-    <environment names="Staging,Production">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    </environment>
-    <environment names="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    </environment>
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js?api_key=sxn3c5fbdrt1e2nbo1ews67t0k8jha5n0w5pm81yiwi7vzl7"></script>
-<script>tinymce.init({ selector: 'textarea' });</script>
-}
-@section Css{
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    </environment>
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <style>
-        body {
-            background-color: white !important;
-        }
 
-        input,
-        select,
-        textarea {
-            max-width: 100% !important;
-        }
-    </style>
 }
 <h2>@Localizer["Create new"]</h2>
 
@@ -113,12 +85,15 @@
     <a asp-action="Index"> @Localizer["Back to List"]</a>
 </div>
 @section Scripts{
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?api_key=sxn3c5fbdrt1e2nbo1ews67t0k8jha5n0w5pm81yiwi7vzl7"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
     <environment names="Staging,Production">
         <script src="~/js/setSlideDuration.min.js" asp-append-version="true"></script>
     </environment>
     <environment names="Development">
         <script src="~/js/setSlideDuration.js"></script>
     </environment>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
 

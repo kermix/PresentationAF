@@ -1,39 +1,10 @@
 ﻿@model PrezentacjaAF.Models.Section
 
 @{
-    ViewData["Title"] = "Create";
-}
-@section Js{
-    <environment names="Staging,Production">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    </environment>
-    <environment names="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    </environment>
-}
-@section Css{
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    </environment>
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <style>
-        body {
-            background-color: white !important;
-        }
-
-        input,
-        select,
-        textarea {
-            max-width: 100% !important;
-        }
-    </style>
+    ViewData["Title"] = Localizer["Create new"];
 }
 
-<h2>Create</h2>
-
-<h4>Section</h4>
+<h2>@Localizer["Create new"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -57,14 +28,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="@Localizer["Create new"]" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

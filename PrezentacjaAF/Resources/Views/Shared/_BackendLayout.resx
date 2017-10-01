@@ -97,16 +97,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Index " xml:space="preserve">
-    <value>Index </value>
+  <data name="Toogle naviagation" xml:space="preserve">
+    <value>Toogle naviagation</value>
   </data>
-  <data name="Create new" xml:space="preserve">
-    <value>Create new</value>
+  <data name="Slides" xml:space="preserve">
+    <value>Slides</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+  <data name="Sections" xml:space="preserve">
+    <value>Sections</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
 </root>

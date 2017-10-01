@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PrezentacjaAF.Resources.Views.Slides {
+namespace PrezentacjaAF.Resources.Views.Shared {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PrezentacjaAF.Resources.Views.Slides {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Index {
+    internal class _BackendLayout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Index() {
+        internal _BackendLayout() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Slides.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PrezentacjaAF.Resources.Views.Shared._BackendLayout", typeof(_BackendLayout).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,38 @@ namespace PrezentacjaAF.Resources.Views.Slides {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new.
+        ///   Looks up a localized string similar to Preview.
         /// </summary>
-        internal static string Create_new {
+        internal static string Preview {
             get {
-                return ResourceManager.GetString("Create new", resourceCulture);
+                return ResourceManager.GetString("Preview", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Sections.
         /// </summary>
-        internal static string Delete {
+        internal static string Sections {
             get {
-                return ResourceManager.GetString("Delete", resourceCulture);
+                return ResourceManager.GetString("Sections", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to Slides.
         /// </summary>
-        internal static string Edit {
+        internal static string Slides {
             get {
-                return ResourceManager.GetString("Edit", resourceCulture);
+                return ResourceManager.GetString("Slides", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Index .
+        ///   Looks up a localized string similar to Toogle naviagation.
         /// </summary>
-        internal static string Index_ {
+        internal static string Toogle_naviagation {
             get {
-                return ResourceManager.GetString("Index ", resourceCulture);
+                return ResourceManager.GetString("Toogle naviagation", resourceCulture);
             }
         }
     }
