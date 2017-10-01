@@ -6,16 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Prezentacja</title>
     <link href="https://fonts.googleapis.com/css?family=Lato|Nunito" rel="stylesheet">
-    @RenderSection("Css", false)
     <environment names="Development">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @Html.Partial("_Favicons")
+</head>
+<body>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/cookie.js"></script>
+        <script src="~/lib/fullpage.js/jquery.fullPage.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -25,14 +38,10 @@
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
         <script src="~/js/cookie.min.js" asp-append-version="true"></script>
+        <script src="~/lib/fullpage.js/jquery.fullPage.min.js" asp-append-version="true"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.min.js" asp-append-version="true"></script>
     </environment>
-    @RenderSection("Js", false)
-    @Html.Partial("_Favicons")
-</head>
-<body>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -2,26 +2,6 @@
 @{
     ViewData["Title"] = Localizer["Home Page"];
 }
-@section Js{
-    <environment names="Staging,Production">
-        <script src="~/lib/fullpage.js/jquery.fullPage.min.js" asp-append-version="true"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.min.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Development">
-        <script src="~/lib/fullpage.js/jquery.fullPage.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.js"></script>
-    </environment>
-}
-@section Css{
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.min.css" asp-append-version="true" />
-    </environment>
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.css" />
-    </environment>
-}
 <div id="slideshowControls">
     <div id="buttonsContainer">
         <button id="slideshowButton"><i class="fa fa-play" aria-hidden="true"></i></button>
