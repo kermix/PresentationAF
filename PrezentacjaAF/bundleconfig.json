@@ -50,5 +50,11 @@
     "inputFiles": [
       "wwwroot/js/setSlideDuration.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/backend.min.css",
+    "inputFiles": [
+      "wwwroot/css/backend.css"
+    ]
   }
 ]
