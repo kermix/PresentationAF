@@ -121,7 +121,7 @@
     <value>Usuń sekcję</value>
   </data>
   <data name="Are you sure you want to delete this?" xml:space="preserve">
-    <value>Czy jesteś pewien, że chcesz to usunąć?</value>
+    <value>Czy jesteś pewien, że chcesz usunąć tą sekcję i wszystkie zależne od niej slajdy?</value>
   </data>
   <data name="Back to List" xml:space="preserve">
     <value>Powrót do listy</value>
