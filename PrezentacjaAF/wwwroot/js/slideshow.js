@@ -97,17 +97,18 @@
         });
     });
 
-    function getAnchors() {
+    function getDataAnchors() {
         var anchors = new Array();
         $(".section").each(function () {
             anchors.push($(this).attr("data-anchor"));
         });
+        return anchors;
     }
 
     $('#fullpage').fullpage({
         verticalCentered: true,
         fitToSection: true,
-        anchors: getAnchors(),
+        anchors: getDataAnchors(),
         afterLoad: function (anchorLink, index) {
             var loadedSection = $(this);
             if (loadedSection.attr("data-slideshow").toString() === "true") {
