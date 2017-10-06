@@ -8,6 +8,7 @@
         var slide = $(".fp-section.fp-completely .fp-slide.active");
         if (slide.length) {
             var audio = $(slide).find('audio');
+            audio.addClass("active");
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
@@ -26,18 +27,21 @@
     }
 
     function stopAudio() {
-        var slide = $(".fp-section.fp-completely .fp-slide.active");
-        if (slide.length) {
-            var audio = $(slide).find('audio');
-            var elementNode = $(audio);
-            var element = $(elementNode).get(0);
-            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.pause === 'function') {
-                elementNode.animate({ volume: 0 }, 500, function () {
-                    element.pause();
-                    element.currentTime = 0;
-                });
-            }
+        var audio = $('audio.active');
+        if (audio.length > 0) {
+            audio.each(function (i, element) {
+                if (element[0] !== null &&
+                    typeof element !== 'undefined' &&
+                    element.hasAttribute('data-autoplay') &&
+                    typeof element.pause === 'function') {
+                    $(element).animate({ volume: 0 }, 500, function () {
+                        element.pause();
+                        element.currentTime = 0;
+                    });
+                }
+            });
         }
+        audio.removeClass("active");
         clearTimeout(audioFadeOutTimeout);
     }
 
