@@ -43,7 +43,7 @@
                                 <div id="loader" style="display: block"></div>
                             </div>
                             <div id="data-row">
-                                <h3>@item.Title</h3>
+                                <h3>@(item.SortOrder + ". " + item.Title)</h3>
                                 <p>@Html.Raw(@item.Description)</p>
                             </div>
                         </div>
