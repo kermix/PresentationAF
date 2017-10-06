@@ -56,5 +56,11 @@
     "inputFiles": [
       "wwwroot/css/backend.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-ui/jquery-ui.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-ui/jquery-ui.js"
+    ]
   }
 ]
