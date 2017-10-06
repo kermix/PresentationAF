@@ -78,7 +78,7 @@ textarea {
     width: 100%;
     z-index: 999;
 }
-#slideshowButton, #muteButton, #fullscreenButton {
+#slideshowButton, #muteButton, #fullscreenButton{
     color: white;
     background-color: Transparent;
     background-repeat: no-repeat;
@@ -91,6 +91,17 @@ textarea {
 
     #slideshowButton.active, #muteButton.active, #fullscreenButton.active {
         color: gray;
+    }
+
+#volumeSlider {
+    display: inline-block;
+    width: 100px;
+    height: 10px;
+}
+
+    #volumeSlider .ui-slider-handle {
+        height: 19px;
+        width: 19px;
     }
 
 #buttonsContainer {

@@ -10,11 +10,13 @@
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/vader/jquery-ui.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/fullpage.js/jquery.fullPage.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/vader/jquery-ui.min.css" asp-append-version="true" />
     </environment>
     @Html.Partial("_Favicons")
 </head>
@@ -26,6 +28,7 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
         <script src="~/js/cookie.js"></script>
         <script src="~/lib/fullpage.js/jquery.fullPage.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/3.3.1/screenfull.js"></script>
@@ -36,6 +39,12 @@
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js"
+                asp-fallback-src="~/lib/jquery-ui/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=">
         </script>
         <script src="~/js/cookie.min.js" asp-append-version="true"></script>
         <script src="~/lib/fullpage.js/jquery.fullPage.min.js" asp-append-version="true"></script>

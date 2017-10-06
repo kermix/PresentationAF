@@ -15,16 +15,6 @@
     else
         $("#slideLength").val(parseInt(($.getCookie("slideDuration"))).toString());
 
-    $("#muteButton").get(0).addEventListener("click", function () {
-        $.setCookie("muted", $.getCookie("muted") === "true" ? "false" : "true", 30);
-    });
-
-    $("#slideshowButton").get(0).addEventListener("click", function () {
-        $.setCookie("slideshow", $.getCookie("slideshow") === "true" ? "false" : "true", 30);
-    });
-
-    $("#slideLength").get(0).addEventListener("change", function () {
-        $.setCookie("slideDuration", parseInt($("#slideLength").val()).toString(), 30);
-    });
-    
+    if (!($.getCookie("slideVolume")))
+        $.setCookie("slideVolume", "40", 30);    
 });

@@ -8,7 +8,6 @@
         var slide = $(".fp-section.fp-completely .fp-slide.active");
         if (slide.length) {
             var audio = $(slide).find('audio');
-            audio.addClass("active");
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
             if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
@@ -16,10 +15,12 @@
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
-                    elementNode.animate({ volume: 0.3 }, 2000);
+                    elementNode.animate({ volume: 0.3 }, 2000, function () {
+                        audio.addClass("active");
+                    });
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
-                    }, currentSlideDuration - 500);
+                    }, currentSlideDuration - 1000);
 
                 }
             }
@@ -113,6 +114,37 @@
         verticalCentered: true,
         fitToSection: true,
         anchors: getDataAnchors(),
+        afterRender: function () {
+            $("#muteButton").get(0).addEventListener("click", function () {
+                $.setCookie("muted", $.getCookie("muted") === "true" ? "false" : "true", 30);
+            });
+
+            $("#slideshowButton").get(0).addEventListener("click", function () {
+                $.setCookie("slideshow", $.getCookie("slideshow") === "true" ? "false" : "true", 30);
+            });
+
+            $("#slideLength").get(0).addEventListener("change", function () {
+                $.setCookie("slideDuration", parseInt($("#slideLength").val()).toString(), 30);
+            });
+
+            $("#volumeSlider").slider({
+                value: parseInt($.getCookie("slideVolume")),
+                step: 1,
+                range: 'min',
+                min: 0,
+                max: 100,
+                slide: function () {
+                    var value = $("#volumeSlider").slider("value");
+                    $("audio.active").each(function (i, el) { el.volume = (value / 100) });
+                },
+                change: function () {
+                    var value = $("#volumeSlider").slider("value");
+                    $.setCookie("slideVolume", value.toString(), 30);
+                }
+            });
+
+
+        },
         afterLoad: function (anchorLink, index) {
             var loadedSection = $(this);
             if (loadedSection.attr("data-slideshow").toString() === "true") {
