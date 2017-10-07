@@ -19,5 +19,5 @@
         $("#slideLength").val(parseInt(($.getCookie("slideDuration"))).toString());
 
     if (!($.getCookie("slideVolume")))
-        $.setCookie("slideVolume", "40", 30);
+        $.setCookie("slideVolume", "50", 30);
 });
