@@ -20,7 +20,7 @@
                     });
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio(slide);
-                    }, currentSlideDuration - 1000);
+                    }, currentSlideDuration - 300);
                 }
             }
         }
