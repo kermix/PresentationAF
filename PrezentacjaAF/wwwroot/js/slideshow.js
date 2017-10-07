@@ -3,9 +3,9 @@
     var audioFadeOutTimeout;
     var moveSlideTimeout;
     var currentSlideDuration = 10000;
+    var volumeLevel = parseInt($.getCookie("slideVolume"));
 
-    function playAudio() {
-        var slide = $(".fp-section.fp-completely .fp-slide.active");
+    function playAudio(slide) {
         if (slide.length) {
             var audio = $(slide).find('audio');
             var elementNode = $(audio);
@@ -15,35 +15,36 @@
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
-                    elementNode.animate({ volume: 0.3 }, 2000, function () {
+                    elementNode.animate({ volume: volumeLevel / 100 }, 2000, function () {
                         audio.addClass("active");
                     });
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio();
                     }, currentSlideDuration - 1000);
-
                 }
             }
         }
     }
 
-    function stopAudio() {
-        var audio = $('audio.active');
-        if (audio.length > 0) {
-            audio.each(function (i, element) {
-                if (element[0] !== null &&
-                    typeof element !== 'undefined' &&
-                    element.hasAttribute('data-autoplay') &&
-                    typeof element.pause === 'function') {
-                    $(element).animate({ volume: 0 }, 500, function () {
-                        element.pause();
-                        element.currentTime = 0;
-                    });
-                }
-            });
+    function stopAudio(slide) {
+        if (slide.length) {
+            var audio = $(slide).find('audio');
+            if (audio.length > 0) {
+                audio.each(function (i, element) {
+                    if (element[0] !== null &&
+                        typeof element !== 'undefined' &&
+                        element.hasAttribute('data-autoplay') &&
+                        typeof element.pause === 'function') {
+                        $(element).animate({ volume: 0 }, 500, function () {
+                            element.pause();
+                            element.currentTime = 0;
+                        });
+                    }
+                });
+            }
+            audio.removeClass("active");
+            clearTimeout(audioFadeOutTimeout);
         }
-        audio.removeClass("active");
-        clearTimeout(audioFadeOutTimeout);
     }
 
     function activeSlideThumb(selector) {
@@ -70,38 +71,6 @@
         }
     }
 
-    $("#muteButton").on("click", function () {
-        if ($.getCookie("muted") === "false") {
-            $(this).removeClass("active");
-            playAudio();
-        } else {
-            $(this).addClass("active");
-            stopAudio();
-        }
-        setMoveSlideTimeout();
-    });
-
-    $("#slideshowButton").on("click", function () {
-        if ($.getCookie("slideshow") === "true") {
-            $(this).removeClass("active");
-        } else {
-            $(this).addClass("active");
-        }
-        setMoveSlideTimeout();
-    });
-
-    $("#slideLength").on("change", function () {
-        setMoveSlideTimeout();
-    });
-
-    $(".photo").on('load', function () {
-        var photo = $(this);
-        photo.parent().find('#loader').fadeOut(function () {
-            photo.fadeIn();
-            playAudio();
-        });
-    });
-
     function getDataAnchors() {
         var anchors = new Array();
         $(".section").each(function () {
@@ -115,16 +84,33 @@
         fitToSection: true,
         anchors: getDataAnchors(),
         afterRender: function () {
-            $("#muteButton").get(0).addEventListener("click", function () {
+            $("#muteButton").on("click", function () {
                 $.setCookie("muted", $.getCookie("muted") === "true" ? "false" : "true", 30);
+                $("#volumeSlider").fadeToggle();
+                $(this).toggleClass("active");
+                if ($.getCookie("muted") === "false")
+                    playAudio($(".slide.active"));
+                else
+                    stopAudio($(".slide.active"));
+                setMoveSlideTimeout();
             });
 
-            $("#slideshowButton").get(0).addEventListener("click", function () {
+            $("#slideshowButton").on("click", function () {
                 $.setCookie("slideshow", $.getCookie("slideshow") === "true" ? "false" : "true", 30);
+                $(this).toggleClass("active");
+                setMoveSlideTimeout();
             });
 
-            $("#slideLength").get(0).addEventListener("change", function () {
+            $("#slideLength").on("change", function () {
                 $.setCookie("slideDuration", parseInt($("#slideLength").val()).toString(), 30);
+                setMoveSlideTimeout();
+            });
+
+            $(".photo").on('load', function () {
+                var photo = $(this);
+                photo.parent().find('#loader').fadeOut(function () {
+                    photo.fadeIn();
+                });
             });
 
             $("#volumeSlider").slider({
@@ -135,11 +121,12 @@
                 max: 100,
                 slide: function () {
                     var value = $("#volumeSlider").slider("value");
-                    $("audio.active").each(function (i, el) { el.volume = (value / 100) });
+                    $("audio.active").each(function (i, el) { el.volume = (value / 100) });  
                 },
                 change: function () {
                     var value = $("#volumeSlider").slider("value");
                     $.setCookie("slideVolume", value.toString(), 30);
+                    volumeLevel = value;
                 }
             });
 
@@ -152,6 +139,7 @@
                 var image = loadedSection.find(".photo");
                 currentSlideDuration = loadedSection.find("#slideDuration").val() * 1000;
                 if (image[0].complete) image.trigger('load');
+                playAudio(loadedSection.find(".slide.active"));
                 setMoveSlideTimeout();
                 $("[data-link]").removeClass("active");
                 activeSlideThumb(loadedSection.find(".slide.active").attr("data-anchor"));
@@ -164,7 +152,7 @@
 
         onLeave: function (index, nextIndex, direction) {
             var leavingSection = $(this);
-            stopAudio();
+            stopAudio(leavingSection.find(".slide.active"));
             clearTimeout(moveSlideTimeout);
         },
 
@@ -174,6 +162,7 @@
             currentSlideDuration = loadedSlide.find("#slideDuration").val() * 1000;
             if (image[0].complete) image.trigger('load');
             activeSlideThumb(loadedSlide.attr('data-anchor'));
+            playAudio(loadedSlide);
             setMoveSlideTimeout();
         },
 
@@ -187,7 +176,7 @@
                 }
                 leavingSlide.find("#loader").fadeIn();
             });
-            stopAudio();
+            stopAudio(leavingSlide);
             clearTimeout(moveSlideTimeout);
             deactiveSlideThumb(leavingSlide.attr('data-anchor'));
         }

@@ -218,3 +218,9 @@ footer {
     background: -moz-linear-gradient(#000000, #212121);
     background: linear-gradient(#000000, #212121);
 }
+
+/* Misc */
+
+.hidden {
+    display: none;
+}

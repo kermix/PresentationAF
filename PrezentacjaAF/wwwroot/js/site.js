@@ -1,9 +1,12 @@
 ﻿$(document).ready(function () {
 
-    if (!($.getCookie("muted")))
+    if (!($.getCookie("muted"))) {
         $.setCookie("muted", "false", 30);
-    else if ($.getCookie("muted") === "true")
+    }
+    else if ($.getCookie("muted") === "true") {
+        $("#volumeSlider").hide();
         $("#muteButton").addClass("active");
+    }
 
     if (!($.getCookie("slideshow")))
         $.setCookie("slideshow", "true", 30);
@@ -16,5 +19,5 @@
         $("#slideLength").val(parseInt(($.getCookie("slideDuration"))).toString());
 
     if (!($.getCookie("slideVolume")))
-        $.setCookie("slideVolume", "40", 30);    
+        $.setCookie("slideVolume", "40", 30);
 });
