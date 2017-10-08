@@ -6,7 +6,7 @@
     var volumeLevel = parseInt($.getCookie("slideVolume"));
 
     function playAudio(slide) {
-        if (slide.length) {
+        if (!($.browser.moblie) && slide.length) {
             var audio = $(slide).find('audio');
             var elementNode = $(audio);
             var element = $(elementNode).get(0);

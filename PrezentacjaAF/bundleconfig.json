@@ -62,5 +62,11 @@
     "inputFiles": [
       "wwwroot/lib/jquery-ui/jquery-ui.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/mobile.min.js",
+    "inputFiles": [
+      "wwwroot/js/mobile.js"
+    ]
   }
 ]
