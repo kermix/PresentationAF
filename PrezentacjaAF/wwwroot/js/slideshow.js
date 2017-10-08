@@ -20,7 +20,7 @@
                     });
                     audioFadeOutTimeout = setTimeout(function () {
                         stopAudio(slide);
-                    }, currentSlideDuration - 300);
+                    }, currentSlideDuration - 1500);
                 }
             }
         }
@@ -35,7 +35,7 @@
                         typeof element !== 'undefined' &&
                         element.hasAttribute('data-autoplay') &&
                         typeof element.pause === 'function') {
-                        $(element).animate({ volume: 0 }, 500, function () {
+                        $(element).animate({ volume: 0 }, 1500, function () {
                             element.pause();
                             element.currentTime = 0;
                         });
