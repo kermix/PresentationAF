@@ -5,9 +5,9 @@
 <div id="slideshowControls">
     <div id="buttonsContainer">
         <button id="slideshowButton"><i class="fa fa-play" aria-hidden="true"></i></button>
-        <button id="fullscreenButton" onclick="screenfull.toggle();"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
-        <button id="muteButton"><i class="fa fa-music" aria-hidden="true"></i></button>
-        <div id="volumeSlider"></div>
+        <button id="fullscreenButton" class="no-mobile" onclick="screenfull.toggle();"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+        <button id="muteButton" class="no-mobile"><i class="fa fa-music" aria-hidden="true"></i></button>
+        <div id="volumeSlider" class="no-mobile"></div>
     </div>
     <label class="slideLength">
         <select id="slideLength">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 }
-                <div id="slidesNav">
+                <div id="slidesNav" class="no-mobile">
                     @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
                     {
                         <div><a href="#@(item.Section.Tag)/@(item.ID)"><img data-link="@(item.ID)" src="/uploads/photos/thumbs/@item.PhotoPath" /></a></div>
