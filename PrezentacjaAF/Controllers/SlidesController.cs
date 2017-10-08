@@ -297,6 +297,7 @@ namespace PrezentacjaAF.Controllers
 
         private string NormalizeTitle(string input)
         {
+            input.Replace("  ", " ").Replace(" \" ", "\"");
             return Regex.Replace(input, @"^.*?(?=/)", m => m.ToString().ToUpper());
         }
 
