@@ -19,6 +19,10 @@
         </select>
     </label>
 </div>
+<div id="sectionsNav">
+    <button id="sectionUpButton" class="no-mobile" onclick="$.fn.fullpage.moveSectionUp();"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+    <button id="sectionDownButton" class="no-mobile" onclick="$.fn.fullpage.moveSectionDown();"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></button>
+</div>
 <div id="fullpage">
     @foreach (var section in ViewBag.Sections)
     {

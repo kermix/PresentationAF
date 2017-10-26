@@ -78,7 +78,7 @@ textarea {
     width: 100%;
     z-index: 999;
 }
-#slideshowButton, #muteButton, #fullscreenButton{
+#slideshowButton, #muteButton, #fullscreenButton, #sectionUpButton, #sectionDownButton {
     color: white;
     background-color: Transparent;
     background-repeat: no-repeat;
@@ -109,6 +109,16 @@ textarea {
     top: 10px;
     left: 10px;
     z-index: 999;
+}
+
+#sectionsNav {
+    position: fixed;
+    top: 10px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 999;
+    text-align: center;
 }
 
 /*Slide duration dropdown*/
