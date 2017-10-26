@@ -95,10 +95,13 @@
             'insertdatetime media table contextmenu paste code help'
         ],
         menubar: false,
-        toolbar: 'insert | undo redo |  formatselect | forecolor backcolor | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image link table | removeformat | code',
+        toolbar: [
+            'insert | undo redo |  formatselect | forecolor backcolor | bold italic underline | ',
+            'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | ',
+            'image link table | removeformat | code'
+        ]
     });
 </script>
-
     <environment names="Staging,Production">
         <script src="~/js/setSlideDuration.min.js" asp-append-version="true"></script>
     </environment>
