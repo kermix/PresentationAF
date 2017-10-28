@@ -10,8 +10,8 @@
             var audio = $(slide).find('audio');
             var elementNode = $(audio);
             var element = $(elementNode).get(0);
-            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
-                if ($.getCookie("muted") === "false") {
+            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-ap') && typeof element.play === 'function') {
+                if ($.getCookie("muted") !== "true") {
                     element.volume = 0;
                     clearTimeout(audioFadeOutTimeout);
                     element.play();
@@ -33,7 +33,7 @@
                 audio.each(function (i, element) {
                     if (element[0] !== null &&
                         typeof element !== 'undefined' &&
-                        element.hasAttribute('data-autoplay') &&
+                        element.hasAttribute('data-ap') &&
                         typeof element.pause === 'function') {
                         $(element).animate({ volume: 0 }, 1500, function () {
                             element.pause();
