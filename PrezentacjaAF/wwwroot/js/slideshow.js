@@ -1,50 +1,14 @@
 ﻿$(document).ready(function () {
 
-    var audioFadeOutTimeout;
     var moveSlideTimeout;
-    var currentSlideDuration = 10000;
-    var volumeLevel = parseInt($.getCookie("slideVolume"));
+    var currentSlideDuration;
 
-    function playAudio(slide) {
-        if (!($.browser.moblie) && slide.length) {
-            var audio = $(slide).find('audio');
-            var elementNode = $(audio);
-            var element = $(elementNode).get(0);
-            if (element !== null && typeof element !== 'undefined' && element.hasAttribute('data-ap') && typeof element.play === 'function') {
-                if ($.getCookie("muted") !== "true") {
-                    element.volume = 0;
-                    clearTimeout(audioFadeOutTimeout);
-                    element.play();
-                    elementNode.animate({ volume: volumeLevel / 100 }, 2000, function () {
-                        audio.addClass("active");
-                    });
-                    audioFadeOutTimeout = setTimeout(function () {
-                        stopAudio(slide);
-                    }, currentSlideDuration - 1500);
-                }
-            }
-        }
-    }
-
-    function stopAudio(slide) {
-        if (slide.length) {
-            var audio = $(slide).find('audio');
-            if (audio.length > 0) {
-                audio.each(function (i, element) {
-                    if (element[0] !== null &&
-                        typeof element !== 'undefined' &&
-                        element.hasAttribute('data-ap') &&
-                        typeof element.pause === 'function') {
-                        $(element).animate({ volume: 0 }, 1500, function () {
-                            element.pause();
-                            element.currentTime = 0;
-                        });
-                    }
-                });
-            }
-            audio.removeClass("active");
-            clearTimeout(audioFadeOutTimeout);
-        }
+    function getDataAnchors() {
+        var anchors = new Array();
+        $(".section").each(function () {
+            anchors.push($(this).attr("data-anchor"));
+        });
+        return anchors;
     }
 
     function activeSlideThumb(selector) {
@@ -61,22 +25,14 @@
 
     function setMoveSlideTimeout() {
         clearTimeout(moveSlideTimeout);
-        if ($.getCookie("slideshow") === "true") {
+        if ($.getCookie("isSlideshow") === "true") {
             moveSlideTimeout = setTimeout(function () {
                 $.fn.fullpage.moveSlideRight();
             },
                 parseInt($("#slideLength").val()) === 0 ?
-                    ($.getCookie("muted") === "false" ?
+                    ($.getCookie("isMuted") === "false" ?
                         currentSlideDuration : 15000) : parseInt($("#slideLength").val()));
         }
-    }
-
-    function getDataAnchors() {
-        var anchors = new Array();
-        $(".section").each(function () {
-            anchors.push($(this).attr("data-anchor"));
-        });
-        return anchors;
     }
 
     $('#fullpage').fullpage({
@@ -85,18 +41,17 @@
         anchors: getDataAnchors(),
         afterRender: function () {
             $("#muteButton").on("click", function () {
-                $.setCookie("muted", $.getCookie("muted") === "true" ? "false" : "true", 30);
+                $.setCookie("isMuted", $.getCookie("isMuted") === "true" ? "false" : "true", 30);
                 $("#volumeSlider").fadeToggle();
                 $(this).toggleClass("active");
-                if ($.getCookie("muted") === "false")
-                    playAudio($(".slide.active"));
+                if ($.getCookie("isMmuted") === "false")
+                    $("audio").animate({ volume: parseInt($.getCookie("slideVolume")) / 100 }, 2000);
                 else
-                    stopAudio($(".slide.active"));
-                setMoveSlideTimeout();
+                    $("audio").animate({ volume: 0 }, 2000);
             });
 
             $("#slideshowButton").on("click", function () {
-                $.setCookie("slideshow", $.getCookie("slideshow") === "true" ? "false" : "true", 30);
+                $.setCookie("isSlideshow", $.getCookie("isSlideshow") === "true" ? "false" : "true", 30);
                 $(this).toggleClass("active");
                 setMoveSlideTimeout();
             });
@@ -121,7 +76,7 @@
                 max: 100,
                 slide: function () {
                     var value = $("#volumeSlider").slider("value");
-                    $("audio.active").each(function (i, el) { el.volume = (value / 100) });  
+                    $("audio").each(function (i, el) { el.volume = (value / 100) });
                 },
                 change: function () {
                     var value = $("#volumeSlider").slider("value");
@@ -139,21 +94,13 @@
                 var image = loadedSection.find(".photo");
                 currentSlideDuration = loadedSection.find("#slideDuration").val() * 1000;
                 if (image[0].complete) image.trigger('load');
-                playAudio(loadedSection.find(".slide.active"));
-                setMoveSlideTimeout();
                 $("[data-link]").removeClass("active");
                 activeSlideThumb(loadedSection.find(".slide.active").attr("data-anchor"));
-            }
-            else {
+                setMoveSlideTimeout();
+            } else {
                 $("#slideshowControls").fadeOut();
                 clearTimeout(moveSlideTimeout);
             }
-        },
-
-        onLeave: function (index, nextIndex, direction) {
-            var leavingSection = $(this);
-            stopAudio(leavingSection.find(".slide.active"));
-            clearTimeout(moveSlideTimeout);
         },
 
         afterSlideLoad: function (anchorLink, index, slideAnchor, slideIndex) {
@@ -162,22 +109,11 @@
             currentSlideDuration = loadedSlide.find("#slideDuration").val() * 1000;
             if (image[0].complete) image.trigger('load');
             activeSlideThumb(loadedSlide.attr('data-anchor'));
-            playAudio(loadedSlide);
             setMoveSlideTimeout();
         },
 
         onSlideLeave: function (anchorLink, index, slideIndex, direction, nextSlideIndex) {
             var leavingSlide = $(this);
-            leavingSlide.find(".photo").fadeOut(function () {
-                if (leavingSlide.find(".photo").get(0).getAttribute('src')) {
-                    leavingSlide.find(".photo").get(0).setAttribute('data-src',
-                        leavingSlide.find(".photo").get(0).getAttribute('src'));
-                    leavingSlide.find(".photo").get(0).removeAttribute('src');
-                }
-                leavingSlide.find("#loader").fadeIn();
-            });
-            stopAudio(leavingSlide);
-            clearTimeout(moveSlideTimeout);
             deactiveSlideThumb(leavingSlide.attr('data-anchor'));
         }
     });

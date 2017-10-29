@@ -7,7 +7,7 @@
     "jquery-validation": "1.17.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "font-awesome": "Font-Awesome#v4.7.0",
-    "fullpage.js": "fullpage#v.2.7.5",
+    "fullpage.js": "v.2.7.5",
     "jquery-ui": "1.12.1"
   },
   "resolutions": {

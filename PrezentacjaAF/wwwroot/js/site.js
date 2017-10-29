@@ -1,16 +1,16 @@
 ﻿$(document).ready(function () {
 
-    if (!($.getCookie("muted"))) {
-        $.setCookie("muted", "false", 30);
+    if (!($.getCookie("isMuted"))) {
+        $.setCookie("isMuted", "false", 30);
     }
-    else if ($.getCookie("muted") === "true") {
+    else if ($.getCookie("isMuted") === "true") {
         $("#volumeSlider").hide();
         $("#muteButton").addClass("active");
     }
 
-    if (!($.getCookie("slideshow")))
-        $.setCookie("slideshow", "true", 30);
-    else if ($.getCookie("slideshow") === "false")
+    if (!($.getCookie("isSlideshow")))
+        $.setCookie("isSlideshow", "true", 30);
+    else if ($.getCookie("isSlideshow") === "false")
         $("#slideshowButton").addClass("active");
 
     if (!($.getCookie("slideDuration")))
