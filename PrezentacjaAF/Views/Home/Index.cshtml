@@ -34,7 +34,7 @@
                 <div class="section" data-anchor="index" data-slideshow="false">
                     <div class="slide">
                         <h1 style="text-align: center">INDEKS</h1>
-                        @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                        @foreach (var item in Model.Where(c => c.Section.IsSlideshow))
                         {
                             <a href="#@(item.Section.Tag)/@(item.ID)">@item.SortOrder. @item.Title</a><br />
                         }
