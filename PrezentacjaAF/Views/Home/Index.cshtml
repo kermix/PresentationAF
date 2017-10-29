@@ -24,51 +24,68 @@
     <button id="sectionDownButton" class="no-mobile" onclick="$.fn.fullpage.moveSectionDown();"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></button>
 </div>
 <div id="fullpage">
-    @foreach (var section in ViewBag.Sections)
-    {
+    @{
         int i = 0;
-        <div class="section @((i == 0 && ((PrezentacjaAF.Models.Section)(section)).IsSlideshow )
-            ? "active" : "a")" data-anchor=@(((PrezentacjaAF.Models.Section)(section)).Tag)
-             @(((PrezentacjaAF.Models.Section)(section)).IsSlideshow ? "data-slideshow=true" : "data-slideshow=false")>
+        int j = 0;
+        foreach (var section in ViewBag.Sections)
+        {
 
-            @if (((PrezentacjaAF.Models.Section)(section)).IsSlideshow)
-            {
-                i++;
-                foreach (var item in Model
-                    .Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
-                {
-                    <div class="slide" data-anchor="@(item.ID)">
-                        <div id="slide-container">
-                            <div id="photo-row">
-                                <audio class="audio" data-autoplay data-src="/uploads/music/@(item.MusicPath)">
-                                    @Localizer["Your browser does not support the audio element."];
-                                </audio>
-                                <input id="slideDuration" type="hidden" value="@item.SlideLength" />
-                                <img class="photo" data-src="/uploads/photos/@item.PhotoPath" />
-                                <div id="loader" style="display: block"></div>
-                            </div>
-                            <div id="data-row">
-                                <h3>@(item.SortOrder + ". " + item.Title)</h3>
-                                <p>@Html.Raw(@item.Description)</p>
-                            </div>
-                        </div>
+            if (j == 1) { 
+                <div class="section" data-anchor="index" data-slideshow="false">
+                    <div class="slide">
+                        @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                        {
+                            <p>@item.Title</p>
+                        }
                     </div>
-                }
-                <div id="slidesNav" class="no-mobile">
-                    @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
-                    {
-                        <div><a href="#@(item.Section.Tag)/@(item.ID)"><img data-link="@(item.ID)" src="/uploads/photos/thumbs/@item.PhotoPath" /></a></div>
-                    }
                 </div>
             }
-            else
-            {
-                @foreach (var slide in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
-                {
-                    <div class="slide">@Html.Raw(@slide.Description)</div>
-                }
-            }
-        </div>
+
+            j++;
+
+            <div class="section @((i == 0 && ((PrezentacjaAF.Models.Section)(section)).IsSlideshow )
+            ? "active" : "")" data-anchor=@(((PrezentacjaAF.Models.Section)(section)).Tag)
+                     @(((PrezentacjaAF.Models.Section)(section)).IsSlideshow ? "data-slideshow=true" : "data-slideshow=false")>
+
+                    @if (((PrezentacjaAF.Models.Section)(section)).IsSlideshow)
+                    {
+                        i++;
+                        foreach (var item in Model
+                            .Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                        {
+                            <div class="slide" data-anchor="@(item.ID)">
+                                <div id="slide-container">
+                                    <div id="photo-row">
+                                        <audio class="audio" data-autoplay data-src="/uploads/music/@(item.MusicPath)">
+                                            @Localizer["Your browser does not support the audio element."];
+                                        </audio>
+                                        <input id="slideDuration" type="hidden" value="@item.SlideLength" />
+                                        <img class="photo" data-src="/uploads/photos/@item.PhotoPath" />
+                                        <div id="loader" style="display: block"></div>
+                                    </div>
+                                    <div id="data-row">
+                                        <h3>@(item.SortOrder + ". " + item.Title)</h3>
+                                        <p>@Html.Raw(@item.Description)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div id="slidesNav" class="no-mobile">
+                            @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                    {
+                                <div><a href="#@(item.Section.Tag)/@(item.ID)"><img data-link="@(item.ID)" src="/uploads/photos/thumbs/@item.PhotoPath" /></a></div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var slide in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
+                        {
+                            <div class="slide">@Html.Raw(@slide.Description)</div>
+                        }
+                    }
+                </div>
+        }
     }
     <div class="section" data-anchor="footer" data-slideshow="false">
         <footer>
