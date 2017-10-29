@@ -1631,7 +1631,8 @@
                 if (element.hasAttribute('data-autoplay') && typeof element.play === 'function') {
                     element.volume = 0;
                     element.play();
-                    $(this).animate({ volume: parseInt($.getCookie("slideVolume")) / 100 }, 2000);
+                    if ($.getCookie("isMmuted") === "false")
+                        $(this).animate({ volume: parseInt($.getCookie("slideVolume")) / 100 }, 2000);
                 }
             });
 
