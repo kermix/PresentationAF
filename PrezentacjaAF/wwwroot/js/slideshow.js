@@ -13,10 +13,12 @@
 
     function activeSlideThumb(selector) {
         $("[data-link=" + selector + "]").addClass("active");
-        $("#slidesNav").animate({
-            scrollLeft: $("#slidesNav").scrollLeft() + $("[data-link=" + selector + "]").position().left
-            - $("#slidesNav").width() / 2 + $("[data-link=" + selector + "]").width() / 2
-        }, 500);
+        //$("#slidesNav").animate({
+        //    scrollLeft: $("#slidesNav").scrollLeft() + $("[data-link=" + selector + "]").position().left
+        //    - $("#slidesNav").width() / 2 + $("[data-link=" + selector + "]").width() / 2
+        //}, 500);
+        console.log(-(($("#slidesNav").width()) / 2));
+        $("#slidesNav").scrollTo($("[data-link=" + selector + "]"), 200, { offset: { left: -(($("#slidesNav").width() - $("[data-link=" + selector + "]").width())/2) } });
     }
 
     function deactiveSlideThumb(selector) {
