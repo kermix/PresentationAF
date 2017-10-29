@@ -236,7 +236,7 @@ footer {
     display: none;
 }
 
-@media only screen and (max-device-width: 480px) {
+@media only screen and (max-device-width: 758px) {
     .no-mobile{
         display: none !important;
     }
