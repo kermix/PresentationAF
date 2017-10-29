@@ -35,7 +35,7 @@
                     <div class="slide">
                         @foreach (var item in Model.Where(c => c.SectionId == ((PrezentacjaAF.Models.Section)(section)).Id))
                         {
-                            <p>@item.Title</p>
+                            <p><a href="#@(item.Section.Tag)/@(item.ID)">@item.SortOrder: @item.Title</a></p>
                         }
                     </div>
                 </div>
