@@ -46,7 +46,7 @@
                 $.setCookie("isMuted", $.getCookie("isMuted") === "true" ? "false" : "true", 30);
                 $("#volumeSlider").fadeToggle();
                 $(this).toggleClass("active");
-                if ($.getCookie("isMmuted") === "false")
+                if ($.getCookie("isMuted") === "false")
                     $("audio").animate({ volume: parseInt($.getCookie("slideVolume")) / 100 }, 2000);
                 else
                     $("audio").animate({ volume: 0 }, 2000);
