@@ -36,6 +36,10 @@
         }
     }
 
+    $("audio").onplay = function () {
+        $(this).animate({ volume: 0 }, (($(this).duration - $(this).currentTime)) * 1000) - 1000);
+    }
+
     $('#fullpage').fullpage({
         verticalCentered: true,
         fitToSection: true,
