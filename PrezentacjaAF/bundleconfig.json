@@ -68,5 +68,11 @@
     "inputFiles": [
       "wwwroot/js/mobile.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/fullpage.js/vendors/scrolloverflow.min.js",
+    "inputFiles": [
+      "wwwroot/lib/fullpage.js/vendors/scrolloverflow.js"
+    ]
   }
 ]

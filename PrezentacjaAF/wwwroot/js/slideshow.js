@@ -39,6 +39,7 @@
         verticalCentered: true,
         fitToSection: true,
         anchors: getDataAnchors(),
+        scrollOverflow: true,
         afterRender: function () {
             $("#muteButton").on("click", function () {
                 $.setCookie("isMuted", $.getCookie("isMuted") === "true" ? "false" : "true", 30);
